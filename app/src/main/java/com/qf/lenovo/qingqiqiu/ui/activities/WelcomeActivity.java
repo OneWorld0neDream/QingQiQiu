@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.percent.PercentFrameLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -43,9 +44,11 @@ public class WelcomeActivity extends BaseActivity implements
     //*	Fields								*
     //***************************************
     @BindView(R.id.vvWelcome)
-    private VideoView mVideoView;
+    VideoView mVideoView;
     @BindView(R.id.txtTimeCounter)
-    private TextView mTimeCounter;
+    TextView mTimeCounter;
+    @BindView(R.id.flWelcome)
+    PercentFrameLayout mWelcomeCanvas;
 
     private Handler mHandler;
     private int mVideoDuration;
@@ -74,10 +77,11 @@ public class WelcomeActivity extends BaseActivity implements
         this.mHandler = new Handler(this);
 
         SharedPreferences preferences = this.getPreferences(MODE_PRIVATE);
-        boolean firstStart = preferences.getBoolean(PreferenceConfig.PREFERENCE_KEY, false);
+        boolean firstStart = preferences.getBoolean(PreferenceConfig.PREFERENCE_KEY_FIRST_START, true);
 
         if (firstStart) {
-            preferences.edit().putBoolean(PreferenceConfig.PREFERENCE_KEY, true).apply();
+            preferences.edit().putBoolean(PreferenceConfig.PREFERENCE_KEY_FIRST_START, false).apply();
+            this.mWelcomeCanvas.setVisibility(View.INVISIBLE);
             this.mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT_START_MEDIA, WELCOME_PAGE_DURATION);
         } else {
             this.finish();
