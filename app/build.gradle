@@ -31,5 +31,5 @@ dependencies {
     compile 'com.daimajia.slider:library:1.0.2@aar'
     compile project(':MagicArenaCore')
     compile project(':MagicArenaPullToRefresh')
-    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:design:23.4.0'
 }
