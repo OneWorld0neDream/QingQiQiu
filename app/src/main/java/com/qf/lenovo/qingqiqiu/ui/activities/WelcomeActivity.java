@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.percent.PercentFrameLayout;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -79,11 +78,12 @@ public class WelcomeActivity extends BaseActivity implements
         SharedPreferences preferences = this.getPreferences(MODE_PRIVATE);
         boolean firstStart = preferences.getBoolean(PreferenceConfig.PREFERENCE_KEY_FIRST_START, true);
 
-        if (firstStart) {
+        if (true) {
             preferences.edit().putBoolean(PreferenceConfig.PREFERENCE_KEY_FIRST_START, false).apply();
-            this.mWelcomeCanvas.setVisibility(View.INVISIBLE);
             this.mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT_START_MEDIA, WELCOME_PAGE_DURATION);
         } else {
+            Intent intent = new Intent(this, MainActivity.class);
+            this.startActivity(intent);
             this.finish();
         }
     }
@@ -104,8 +104,9 @@ public class WelcomeActivity extends BaseActivity implements
     //**************************   OnPreparedListener **************************
     @Override
     public void onPrepared(android.media.MediaPlayer mp) {
+        this.mWelcomeCanvas.setVisibility(View.INVISIBLE);
+
         mp.start();
-        Log.e("onPrepared", "onPrepared:" + this.mVideoView.getDuration());
         this.mVideoDuration = this.mVideoView.getDuration() / 1000;
         this.mTimeCounter.setVisibility(View.VISIBLE);
         this.setRemainedTime(this.mVideoDuration);
@@ -158,9 +159,43 @@ public class WelcomeActivity extends BaseActivity implements
 
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_welcome);
-
         ButterKnife.bind(this);
 
         this.initView();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (this.mVideoView != null && !this.mVideoView.isPlaying()) {
+            this.mVideoView.start();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (this.mVideoView != null && !this.mVideoView.isPlaying()) {
+            this.mVideoView.start();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (this.mVideoView != null && this.mVideoView.isPlaying()) {
+            this.mVideoView.pause();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (this.mVideoView != null && this.mVideoView.isPlaying()) {
+            this.mVideoView.pause();
+        }
+    }
+
+
 }
