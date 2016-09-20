@@ -2,11 +2,15 @@ package com.qf.lenovo.qingqiqiu.ui.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.widget.EditText;
 import android.widget.TableLayout;
 
 import com.qf.lenovo.qingqiqiu.R;
+import com.qf.lenovo.qingqiqiu.adapters.AddFragmentAdapter;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,10 +31,14 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        inItView();
+        initView();
     }
 
-    private void inItView() {
+    private void initView() {
+        ArrayList<Fragment> data = new ArrayList<>();
+
+        AddFragmentAdapter adapter = new AddFragmentAdapter(getSupportFragmentManager(),data);
+        mianViewpager.setAdapter(adapter);
 
     }
 
