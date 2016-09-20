@@ -159,7 +159,6 @@ public class WelcomeActivity extends BaseActivity implements
 
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_welcome);
-
         ButterKnife.bind(this);
 
         this.initView();
