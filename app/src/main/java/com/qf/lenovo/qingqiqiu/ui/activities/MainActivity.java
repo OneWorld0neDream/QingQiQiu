@@ -1,9 +1,10 @@
-package com.qf.lenovo.qingqiqiu;
+package com.qf.lenovo.qingqiqiu.ui.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.qf.lenovo.qingqiqiu.R;
+
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
