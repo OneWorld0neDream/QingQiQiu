@@ -30,4 +30,6 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.daimajia.slider:library:1.0.2@aar'
     compile project(':MagicArenaCore')
+    compile project(':MagicArenaPullToRefresh')
+    compile 'com.android.support:design:24.2.1'
 }
