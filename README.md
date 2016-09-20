@@ -1,6 +1,10 @@
 # QingQiQiu
 Practice   
 
+# 免责声明 #
+
+> 该数据来源自网络,所有数据及代码仅为个人学习所用,如有侵权,可联系管理者删除~
+
 ![IMG](http://imgsrc.baidu.com/forum/w%3D580/sign=e168488990ef76c6d0d2fb23ad17fdf6/a51359ee3d6d55fbb64eec8e6d224f4a21a4dd16.jpg)
 
 ## 一级页面 ##
