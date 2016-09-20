@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
@@ -21,18 +22,21 @@
         android:gravity="center"
         android:padding="4dp"
         android:singleLine="true"
-        android:text="跳过(10)"
         android:textColor="@color/colorWhite"
         android:visibility="visible"/>
 
-    <FrameLayout
+    <android.support.percent.PercentFrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/launcg_bg">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@mipmap/launch_icon"/>
-    </FrameLayout>
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/launch_icon"
+            app:layout_aspectRatio="50%"
+            app:layout_heightPercent="30%"
+            app:layout_marginTopPercent="10%"/>
+    </android.support.percent.PercentFrameLayout>
 </FrameLayout>

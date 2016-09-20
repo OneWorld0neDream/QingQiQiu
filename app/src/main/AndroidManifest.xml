@@ -3,6 +3,11 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.qf.lenovo.qingqiqiu">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
     <application
         android:name=".ui.GlobalApplication"
         android:allowBackup="true"
@@ -20,6 +25,13 @@
         </activity>
         <activity android:name=".ui.activities.WelcomeActivity">
         </activity>
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="57e102e9e0f55a31d5001ab2"/>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${CHANNEL}"/>
     </application>
 
 </manifest>

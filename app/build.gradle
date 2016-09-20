@@ -13,9 +13,16 @@ android {
         versionName "1.0"
     }
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders.put("CHANNEL", "hwstore")
+        }
+
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders.put("CHANNEL", "hwstore")
         }
     }
 }
@@ -33,4 +40,6 @@ dependencies {
     compile project(':MagicArenaPullToRefresh')
     compile 'com.android.support:design:23.4.0'
     compile 'com.android.support:percent:23.4.0'
+    compile files('lib/umeng-analytics-v6.0.1.jar')
+    compile files('lib/utdid4all-1.0.4.jar')
 }
