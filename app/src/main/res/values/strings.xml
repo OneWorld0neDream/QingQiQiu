@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">QingQiQiu</string>
-    <string name="welcome_skip">跳过</string>
+    <string name="welcome_skip">跳过(%d)</string>
 </resources>

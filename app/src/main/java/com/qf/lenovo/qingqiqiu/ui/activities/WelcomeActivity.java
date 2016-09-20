@@ -1,6 +1,7 @@
 package com.qf.lenovo.qingqiqiu.ui.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,10 +13,12 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.qf.lenovo.qingqiqiu.R;
+import com.qf.lenovo.qingqiqiu.configurations.PreferenceConfig;
 
-import java.util.Locale;
 import java.util.Random;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class WelcomeActivity extends BaseActivity implements
         android.media.MediaPlayer.OnCompletionListener,
@@ -29,7 +32,9 @@ public class WelcomeActivity extends BaseActivity implements
     //***************************************
     private static final String TAG = WelcomeActivity.class.getSimpleName();
     public static final int MESSAGE_WHAT_TIME_COUNTER = 100;
+    public static final int MESSAGE_WHAT_START_MEDIA = 101;
     public static final int[] PLAY_VIDEO_LIST = {R.raw.media};
+    private static final int WELCOME_PAGE_DURATION = 3000;
 
     //*******************************************
     //*	Instance Area 							*
@@ -37,7 +42,9 @@ public class WelcomeActivity extends BaseActivity implements
     //***************************************
     //*	Fields								*
     //***************************************
+    @BindView(R.id.vvWelcome)
     private VideoView mVideoView;
+    @BindView(R.id.txtTimeCounter)
     private TextView mTimeCounter;
 
     private Handler mHandler;
@@ -47,7 +54,6 @@ public class WelcomeActivity extends BaseActivity implements
     //*	Constructors						*
     //***************************************
     private void stopPlayBackAndSwitch() {
-        Log.e(TAG, "stopPlayBackAndSwitch: ");
         if (this.mVideoView != null) {
             this.mVideoView.stopPlayback();
             this.mVideoView = null;
@@ -67,15 +73,19 @@ public class WelcomeActivity extends BaseActivity implements
     private void initView() {
         this.mHandler = new Handler(this);
 
-        this.mVideoView.setVideoPath("android.resource://" + getPackageName() + "/" + PLAY_VIDEO_LIST[new Random().nextInt(PLAY_VIDEO_LIST.length)]);
-        this.mVideoView.setOnPreparedListener(this);
-        this.mVideoView.setOnCompletionListener(this);
+        SharedPreferences preferences = this.getPreferences(MODE_PRIVATE);
+        boolean firstStart = preferences.getBoolean(PreferenceConfig.PREFERENCE_KEY, false);
 
-        this.mTimeCounter.setOnClickListener(this);
+        if (firstStart) {
+            preferences.edit().putBoolean(PreferenceConfig.PREFERENCE_KEY, true).apply();
+            this.mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT_START_MEDIA, WELCOME_PAGE_DURATION);
+        } else {
+            this.finish();
+        }
     }
 
     private void setRemainedTime(int restTime) {
-        this.mTimeCounter.setText(String.format(Locale.CHINA, this.getResources().getString(R.string.welcome_skip), new Object[]{restTime}));
+        this.mTimeCounter.setText(String.format(this.getResources().getString(R.string.welcome_skip), restTime));
     }
 
     //***********************************
@@ -111,7 +121,13 @@ public class WelcomeActivity extends BaseActivity implements
                 } else {
                     this.stopPlayBackAndSwitch();
                 }
+                break;
+            case MESSAGE_WHAT_START_MEDIA:
+                this.mVideoView.setVideoPath("android.resource://" + getPackageName() + "/" + PLAY_VIDEO_LIST[new Random().nextInt(PLAY_VIDEO_LIST.length)]);
+                this.mVideoView.setOnPreparedListener(this);
+                this.mVideoView.setOnCompletionListener(this);
 
+                this.mTimeCounter.setOnClickListener(this);
                 break;
         }
 
@@ -121,7 +137,6 @@ public class WelcomeActivity extends BaseActivity implements
     //**************************   onClickListener **************************
     @Override
     public void onClick(View v) {
-        Log.e(TAG, "onClick: " + v.getId());
         switch (v.getId()) {
             case R.id.txtTimeCounter:
                 this.stopPlayBackAndSwitch();
@@ -138,6 +153,9 @@ public class WelcomeActivity extends BaseActivity implements
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         super.onCreate(savedInstanceState);
+        this.setContentView(R.layout.activity_welcome);
+
+        ButterKnife.bind(this);
 
         this.initView();
     }

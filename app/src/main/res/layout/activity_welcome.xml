@@ -24,4 +24,15 @@
         android:text="跳过(10)"
         android:textColor="@color/colorWhite"
         android:visibility="visible"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/launcg_bg">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/launch_icon"/>
+    </FrameLayout>
 </FrameLayout>
