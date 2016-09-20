@@ -32,6 +32,9 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${CHANNEL}"/>
+
+        <activity android:name=".ui.activities.StrategyActivity">
+        </activity>
     </application>
 
 </manifest>
