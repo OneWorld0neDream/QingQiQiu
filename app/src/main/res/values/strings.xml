@@ -9,6 +9,17 @@
         <item>我的</item>
     </string-array>
     <string name="strategy_location_failed">定位失败</string>
+    <string name="travelnote_recommend">推荐</string>
+    <string name="travelnote_name">姓名</string>
+    <string name="travelnote_come">来自</string>
+    <string name="travelnote_him">关注他</string>
+    <string name="travelnote_title">恒安达里打开了收到款福克斯的积分是的来得及案例手机发送的垃圾费老师的及发送垃圾的绿色减肥时间的浪费时间发房大厦里解放</string>
+    <string name="travelnote_praise">点赞</string>
+    <string name="travelnote_comment">评论</string>
+    <string name="travelnote_collect">收藏</string>
+    <string name="travelnote_more">更多</string>
+    <string name="travelnote_platform">氢大V</string>
+    <string name="travelnote_label">标签</string>
 <<<<<<< HEAD
     <string name="strategy_nearby_destination">附近目的地</string>
     <string name="strategy_nearby_destination_more">更多附近目的地</string>
