@@ -9,4 +9,6 @@
         <item>我的</item>
     </string-array>
     <string name="strategy_location_failed">定位失败</string>
+    <string name="strategy_nearby_destination">附近目的地</string>
+    <string name="strategy_nearby_destination_more">更多附近目的地</string>
 </resources>

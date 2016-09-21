@@ -30,8 +30,6 @@ import butterknife.ButterKnife;
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    @BindView(R.id.main_search_edit)
-    EditText mSearchEdit;
     @BindView(R.id.main_appbar)
     AppBarLayout mainAppbar;
     @BindView(R.id.mian_viewpager)

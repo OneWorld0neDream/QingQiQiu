@@ -23,8 +23,8 @@
 
             <include layout="@layout/strategy_location_list_view_item"/>
 
-            <com.framework.magicarena.pulltorefresh.PullToRefreshFullRecyclerView
-                android:id="@+id/ptrOtherDestinationsList"
+            <com.framework.magicarena.pulltorefresh.FullDisplayRecyclerView
+                android:id="@+id/customOtherDestinationsList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </LinearLayout>

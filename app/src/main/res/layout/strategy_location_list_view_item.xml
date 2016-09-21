@@ -1,31 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_margin="10dp"
+              android:layout_margin="5dp"
               android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/txtTopTitle"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="附近的目的地"
-        android:textSize="12sp"/>
+        android:layout_height="match_parent"
+        android:elevation="20dp"
+        app:cardCornerRadius="20dp">
 
-    <include layout="@layout/comm_saperator_line"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <com.framework.magicarena.pulltorefresh.FullDisplayRecyclerView
-        android:id="@+id/customLocationList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/txtTopTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="附近的目的地"
+                android:textSize="12sp"/>
 
-    <include layout="@layout/comm_saperator_line"/>
+            <include layout="@layout/comm_saperator_line"/>
 
-    <TextView
-        android:id="@+id/txtMore"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:gravity="center"
-        android:text="MORE"
-        android:textColor="#00FFFF"/>
+            <com.framework.magicarena.pulltorefresh.FullDisplayRecyclerView
+                android:id="@+id/customLocationList"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"/>
+
+            <include layout="@layout/comm_saperator_line"/>
+
+            <TextView
+                android:id="@+id/txtMore"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="MORE"
+                android:textColor="#00FFFF"/>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
 </LinearLayout>

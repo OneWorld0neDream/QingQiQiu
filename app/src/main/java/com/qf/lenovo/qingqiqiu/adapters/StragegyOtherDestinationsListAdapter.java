@@ -1,13 +1,13 @@
 package com.qf.lenovo.qingqiqiu.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.TextView;
 
 import com.framework.magicarena.core.widget.adapters.RecyclerSingleViewGeneralAdapter;
-import com.framework.magicarena.core.widget.decorations.RecyclerViewDivider;
 import com.qf.lenovo.qingqiqiu.R;
 import com.qf.lenovo.qingqiqiu.models.StragegyOtherDestinationsListModel;
 
@@ -32,10 +32,20 @@ public class StragegyOtherDestinationsListAdapter extends RecyclerSingleViewGene
     @Override
     protected void bindDataSource(ViewHolder holder, StragegyOtherDestinationsListModel.DestinationLocationsList item, int position) {
         holder.setViewText(R.id.txtTopTitle, item.getName());
-        holder.setViewText(R.id.txtMore, item.getButton_text());
+
+        TextView buttomText = holder.getView(R.id.txtMore);
+        String buttonTest = item.getButton_text();
+        if (!TextUtils.isEmpty(buttonTest)) {
+            holder.setViewText(R.id.txtMore, buttonTest);
+            buttomText.setVisibility(View.VISIBLE);
+        } else {
+            buttomText.setVisibility(View.GONE);
+        }
+
         RecyclerView locationList = holder.getView(R.id.customLocationList);
+        locationList.setHasFixedSize(false);
+
         locationList.setLayoutManager(new GridLayoutManager(this.mContext, 3));
-        locationList.addItemDecoration(new RecyclerViewDivider(this.mContext, LinearLayoutManager.HORIZONTAL, 10, Color.WHITE));
         locationList.setAdapter(new StrategyLocationsGridAdapter(this.mContext, item.getDestinations(), R.layout.strategy_location_grid_view_item));
     }
 }

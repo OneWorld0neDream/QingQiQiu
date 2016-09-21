@@ -1,6 +1,5 @@
 package com.qf.lenovo.qingqiqiu.ui.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -18,9 +17,6 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
-import com.framework.magicarena.core.widget.decorations.RecyclerViewDivider;
-import com.framework.magicarena.pulltorefresh.PullToRefreshBase;
-import com.framework.magicarena.pulltorefresh.PullToRefreshFullRecyclerView;
 import com.qf.lenovo.qingqiqiu.R;
 import com.qf.lenovo.qingqiqiu.adapters.StragegyOtherDestinationsListAdapter;
 import com.qf.lenovo.qingqiqiu.adapters.StrategyLocationsGridAdapter;
@@ -51,11 +47,11 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
     RecyclerView mNearbyGridList;
     @BindView(R.id.txtMore)
     TextView mNearbyMore;
-    @BindView(R.id.ptrOtherDestinationsList)
-    PullToRefreshFullRecyclerView mDestinationsPtrList;
+    @BindView(R.id.customOtherDestinationsList)
+    RecyclerView mDestinationsList;
+    //    RecyclerView mDestinationsPtrList;
 
     private StrategyLocationsGridAdapter mNearbyGridAdapter;
-    private RecyclerView mDestinationsList;
     private StragegyOtherDestinationsListAdapter mDestinationsListAdapter;
 
     //***************************************
@@ -65,16 +61,19 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
     //*	Functional Methods		    	*
     //***********************************
     private void initView() {
-        this.mNearbyLocationsTittle.setText("附近目的地");
-        this.mNearbyMore.setText("更多附近目的地");
+        this.mNearbyLocationsTittle.setText(this.getActivity().getString(R.string.strategy_nearby_destination));
+        this.mNearbyMore.setText(this.getActivity().getString(R.string.strategy_nearby_destination_more));
 
         this.mNearbyGridList.setLayoutManager(new GridLayoutManager(this.getActivity(), 3));
-        this.mNearbyGridList.addItemDecoration(new RecyclerViewDivider(this.getActivity(), LinearLayoutManager.HORIZONTAL, 10, Color.WHITE));
+        //        this.mNearbyGridList.addItemDecoration(new RecyclerViewDivider(this.getActivity(), LinearLayoutManager.HORIZONTAL, 10, Color.WHITE));
         this.mNearbyGridAdapter = new StrategyLocationsGridAdapter(this.getActivity(), null, R.layout.strategy_location_grid_view_item);
         this.mNearbyGridList.setAdapter(this.mNearbyGridAdapter);
 
-        this.mDestinationsPtrList.setMode(PullToRefreshBase.Mode.DISABLED);
-        this.mDestinationsList = this.mDestinationsPtrList.getRefreshableView();
+        //        this.mDestinationsPtrList.setMode(PullToRefreshBase.Mode.DISABLED);
+        //        this.mDestinationsList = this.mDestinationsPtrList.getRefreshableView();
+        this.mDestinationsList.setHasFixedSize(true);
+        this.mDestinationsList.setNestedScrollingEnabled(false);
+        this.mDestinationsList.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         this.mDestinationsListAdapter = new StragegyOtherDestinationsListAdapter(this.getActivity(), null, R.layout.strategy_location_list_view_item);
         this.mDestinationsList.setAdapter(this.mDestinationsListAdapter);
     }

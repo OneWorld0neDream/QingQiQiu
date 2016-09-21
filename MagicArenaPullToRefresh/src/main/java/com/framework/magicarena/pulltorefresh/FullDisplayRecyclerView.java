@@ -27,9 +27,9 @@ public class FullDisplayRecyclerView extends RecyclerView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         //        int width = MeasureSpec.getSize(widthMeasureSpec);
         //        int height = MeasureSpec.getSize(heightMeasureSpec);
-        //        this.setMeasuredDimension(width, height);
-        //        int widthSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 1, MeasureSpec.AT_MOST);
+        //        super.setMeasuredDimension(width, height);
+
         int heightSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 1, MeasureSpec.AT_MOST);
-        super.setMeasuredDimension(widthMeasureSpec, heightSpec);
+        super.onMeasure(widthMeasureSpec, heightSpec);
     }
 }

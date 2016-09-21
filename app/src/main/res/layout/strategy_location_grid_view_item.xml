@@ -2,7 +2,7 @@
 <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                xmlns:app="http://schemas.android.com/apk/res-auto"
                                                android:layout_width="match_parent"
-                                               android:layout_height="200dp"
+                                               android:layout_height="150dp"
                                                android:orientation="vertical">
 
     <ImageView
@@ -16,7 +16,7 @@
         android:scaleType="fitXY"
         android:src="@mipmap/launch_icon"
         app:layout_aspectRatio="100%"
-        app:layout_heightPercent="75%"/>
+        app:layout_heightPercent="65%"/>
 
     <TextView
         android:id="@+id/txtPrimaryTitle"
@@ -26,7 +26,7 @@
         android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="PrimaryTitle"
-        android:textSize="16sp"
+        android:textSize="15sp"
         android:textStyle="bold"/>
 
     <TextView
