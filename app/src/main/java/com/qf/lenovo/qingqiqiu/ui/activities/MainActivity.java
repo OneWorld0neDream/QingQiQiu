@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,8 +31,6 @@ import butterknife.ButterKnife;
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    @BindView(R.id.main_search_edit)
-    EditText mSearchEdit;
     @BindView(R.id.main_appbar)
     AppBarLayout mainAppbar;
     @BindView(R.id.mian_viewpager)
