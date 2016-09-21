@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import com.amap.api.location.AMapLocationListener;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.framework.magicarena.core.widget.decorations.RecyclerViewDivider;
+import com.framework.magicarena.pulltorefresh.PullToRefreshBase;
 import com.framework.magicarena.pulltorefresh.PullToRefreshListView;
 import com.qf.lenovo.qingqiqiu.R;
 import com.qf.lenovo.qingqiqiu.adapters.StrategyLocationsGridAdapter;
@@ -52,6 +54,7 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
     PullToRefreshListView mDestinationsPtrList;
 
     private StrategyLocationsGridAdapter mNearbyGridAdapter;
+    private ListView mDestinationsList;
 
     //***************************************
     //*	Methods								*
@@ -68,6 +71,11 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
         this.mNearbyGridList.addItemDecoration(new RecyclerViewDivider(this.getActivity(), LinearLayoutManager.HORIZONTAL, 10, Color.WHITE));
         this.mNearbyGridAdapter = new StrategyLocationsGridAdapter(this.getActivity(), null, R.layout.strategy_location_grid_view_item);
         this.mNearbyGridList.setAdapter(this.mNearbyGridAdapter);
+
+        this.mDestinationsPtrList.setMode(PullToRefreshBase.Mode.DISABLED);
+        this.mDestinationsList = this.mDestinationsPtrList.getRefreshableView();
+
+        this.mDestinationsList
     }
 
     private void setupView() {
