@@ -2,6 +2,7 @@ package com.qf.lenovo.qingqiqiu.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,8 @@ import android.widget.TextView;
 
 import com.qf.lenovo.qingqiqiu.R;
 import com.qf.lenovo.qingqiqiu.models.TravelNoteList;
-import com.squareup.picasso.Picasso;
 
+import org.xutils.image.ImageOptions;
 import org.xutils.x;
 
 import java.util.ArrayList;
@@ -21,17 +22,25 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okio.Options;
 
 /**
  * Created by Administrator on 2016/9/20 0020.
  */
-public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.ViewHolder> {
+public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.ViewHolder> implements View.OnClickListener {
 
 
+    private static final String TAG = TravelNoteAdapter.class.getSimpleName();
     private List<TravelNoteList.DataBean> mData;
     private LayoutInflater mInflater;
     private RecyclerView mRecyclerView;
     private Context mContext;
+    private ImageOptions options = new ImageOptions.Builder().setCircular(true).setUseMemCache(false).build();
+
+    private OnItemClickedListener listener;
+    public void setOnItemClickedListener(OnItemClickedListener listener){
+        this.listener = listener;
+    }
 
     public TravelNoteAdapter(Context mContext,List<TravelNoteList.DataBean> mData) {
         if (this.mData != null) {
@@ -60,15 +69,16 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itmeView = mInflater.inflate(R.layout.fragment_travelnote_content, parent, false);
-
-        return new ViewHolder(itmeView);
+        View itemView = mInflater.inflate(R.layout.fragment_travelnote_content, parent, false);
+        itemView.setOnClickListener(this);
+        return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+
 //        Picasso.with(mContext).load(mData.get(position).getActivity().getUser().getPhoto_url()).into(holder.travelnotePhoto);
-        x.image().bind(holder.travelnotePhoto,mData.get(position).getActivity().getUser().getPhoto_url());
+        x.image().bind(holder.travelnotePhoto,mData.get(position).getActivity().getUser().getPhoto_url(),this.options);
         holder.travelnoteName.setText(mData.get(position).getActivity().getUser().getName());
         holder.travelnotePlatform.setText(mData.get(position).getUser().getName());
         if (mData.get(position).getActivity().getUser().getGender()==1) {
@@ -77,14 +87,16 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
             holder.travelnoteAttention.setText("关注她");
         }
 //        Picasso.with(mContext).load(mData.get(position).getActivity().getContents().get(0).getPhoto_url()).into(holder.travelnoteImage);
-        x.image().bind(holder.travelnoteImage,mData.get(position).getActivity().getContents().get(0).getPhoto_url());
+        ImageOptions options = new ImageOptions.Builder().setUseMemCache(false).build();
+        x.image().bind(holder.travelnoteImage,mData.get(position).getActivity().getContents().get(0).getPhoto_url(),options);
 
         for (int i = 1; i < mData.get(position).getActivity().getContents().size(); i++) {
             View scrollview = View.inflate(mContext, R.layout.fragment_travelnote_content_scrollview, null);
             View child = scrollview.findViewById(R.id.travelnote_content_scrollview_content);
             ImageView image = (ImageView) child.findViewById(R.id.travelnote_content_scrollview_image);
 //            Picasso.with(mContext).load(mData.get(position).getActivity().getContents().get(i).getPhoto_url()).into(image);
-            x.image().bind(image,mData.get(position).getActivity().getContents().get(i).getPhoto_url());
+
+            x.image().bind(image,mData.get(position).getActivity().getContents().get(i).getPhoto_url(),options);
 
             holder.travelnoteScrollview.addView(scrollview);
             int code = holder.travelnoteScrollview.indexOfChild(scrollview);
@@ -93,25 +105,40 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
         }
         holder.travelnoteTitle.setText(mData.get(position).getActivity().getTopic());
         holder.travelnoteContent.setText(mData.get(position).getActivity().getDescription());
-        int count = mData.get(position).getActivity().getDistricts().size() + mData.get(position).getActivity().getCategories().size() + 1;
+        // 获得标签的个数
+        int count = 0;
+        if (mData.get(position).getActivity().getPoi() != null) {
+            count = mData.get(position).getActivity().getDistricts().size() + mData.get(position).getActivity().getCategories().size() + 1;
+        }else {
+            count = mData.get(position).getActivity().getDistricts().size() + mData.get(position).getActivity().getCategories().size();
+        }
+        Log.e(TAG, "onBindViewHolder: `````````````````"+ mData.get(position).getActivity().getDistricts().size() +"------------"+  mData.get(position).getActivity().getCategories().size() );
+        // 给标签添加数据
         for (int i = 0; i < count; i++) {
             View label = View.inflate(mContext, R.layout.fragment_travelnote_content_label, null);
             View child = label.findViewById(R.id.travelnote_content_label_scrollview);
-            Button button = (Button) child.findViewById(R.id.travelnote_content_label_btn);
-            if(i< mData.get(position).getActivity().getDistricts().size()){
-                button.setText(mData.get(position).getActivity().getDistricts().get(i).getName());
-            }else if( i>= mData.get(position).getActivity().getDistricts().size() && i<mData.get(position).getActivity().getCategories().size()){
-                button.setText(mData.get(position).getActivity().getCategories().get(i).getClass().getName());
-            }else if(i == count-1){
-//                button.setText(mData.get(position).getActivity().getPoi().getName());
+            TextView button = (TextView) child.findViewById(R.id.travelnote_content_label_btn);
+            if (mData.get(position).getActivity().getPoi() != null){
+                if(i< mData.get(position).getActivity().getDistricts().size()){
+                    button.setText(mData.get(position).getActivity().getDistricts().get(i).getName());
+                }else if( i>= mData.get(position).getActivity().getDistricts().size() && i<count-1){
+                    button.setText(mData.get(position).getActivity().getCategories().get(i- mData.get(position).getActivity().getDistricts().size()).getName());
+                }else{
+                    button.setText(mData.get(position).getActivity().getPoi().getName());
+                }
+            }else{
+                if(i< mData.get(position).getActivity().getDistricts().size()){
+                    button.setText(mData.get(position).getActivity().getDistricts().get(i).getName());
+                }else if( i>= mData.get(position).getActivity().getDistricts().size() && i<count){
+                    button.setText(mData.get(position).getActivity().getCategories().get(i- mData.get(position).getActivity().getDistricts().size()).getName());
+                }
             }
             holder.travelnoteLabel.addView(label);
         }
 
-        holder.travelnotePraise.setText("点赞");
-        holder.travelnoteComment.setText("评论");
-        holder.travelnoteCollect.setText("收藏");
-        holder.travelnoteMore.setText("更多");
+        holder.travelnotePraise.setText(mData.get(position).getActivity().getLikes_count()+"");
+        holder.travelnoteComment.setText(mData.get(position).getActivity().getComments_count()+"");
+        holder.travelnoteCollect.setText(mData.get(position).getActivity().getFavorites_count()+"");
     }
 
     @Override
@@ -125,6 +152,15 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
         return mData.size();
     }
 
+    @Override
+    public void onClick(View v) {
+
+        int position = mRecyclerView.getChildAdapterPosition(v);
+        if (listener != null) {
+            listener.clickedListener(position,v);
+        }
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.travelnote_content_photo)
@@ -134,7 +170,7 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
         @BindView(R.id.travelnote_content_platform)
         TextView travelnotePlatform;
         @BindView(R.id.travelnote_content_attention)
-        Button travelnoteAttention;
+        TextView travelnoteAttention;
         @BindView(R.id.travelnote_content_image)
         ImageView travelnoteImage;
         @BindView(R.id.travelnote_content_scrollview)
@@ -145,6 +181,12 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
         TextView travelnoteContent;
         @BindView(R.id.travelnote_content_label)
         LinearLayout travelnoteLabel;
+        @BindView(R.id.travelnote_content_praise_layout)
+        LinearLayout travelnotePraiseLayout;
+        @BindView(R.id.travelnote_content_comment_layout)
+        LinearLayout treavelnoteCommentLayout;
+        @BindView(R.id.travelnote_content_collect_layout)
+        LinearLayout travelnoteCollectLayout;
         @BindView(R.id.travelnote_content_praise)
         TextView travelnotePraise;
         @BindView(R.id.travelnote_content_comment)
@@ -152,11 +194,15 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
         @BindView(R.id.travelnote_content_collect)
         TextView travelnoteCollect;
         @BindView(R.id.travelnote_content_more)
-        TextView travelnoteMore;
+        ImageView travelnoteMore;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public interface OnItemClickedListener{
+        void clickedListener(int position, View itemView);
     }
 }

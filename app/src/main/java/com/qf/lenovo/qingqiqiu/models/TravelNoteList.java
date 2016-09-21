@@ -128,71 +128,17 @@ public class TravelNoteList {
             private int parent_district_count;
             private int level;
             private String description;
-            /**
-             * id : 2617
-             * name : 刘芊兰
-             * gender : 0
-             * level : 3
-             * photo_url : http://inspiration.chanyouji.cn/User/2617/135ddcbc21ea5186015e5909f50c112c.jpg
-             */
 
             private UserBean user;
-            /**
-             * id : 79242
-             * h5_url : http://m.ctrip.com/webapp/you/sight/458/16020.html?popup=close&autoawaken=close&allianceid=309340&sid=788076&ouid=
-             * name : 呼伦贝尔大草原
-             * name_en :
-             * name_pinyin : hu lun bei er da cao yuan
-             * business_id : 16020
-             * poi_type : SIGHT
-             * district_id : 458
-             * lat : 49.2114982605
-             * lng : 119.7657165527
-             * address : 呼伦贝尔市（大兴安岭以西、阿尔山以北、西至蒙古国边境、北至俄罗斯边境的大面积区域）
-             * location_name : null
-             * blat : 49.2178459167
-             * blng : 119.7720859586
-             * youji_lat : 49.766493
-             * youji_lng : 119.88799
-             * youji_poi_id : 2129
-             * youji_poi_name : 呼伦贝尔大草原
-             * is_in_china : true
-             * local_name : null
-             * local_address_name : null
-             */
 
             private PoiBean poi;
             private int inspiration_activity_id;
             private Object inspiration_activity;
-            /**
-             * id : 369626
-             * caption : null
-             * photo_url : http://inspiration.chanyouji.cn/UserActivityContent/369626/439a8251a908656ee9fff03d6b94945b.jpg
-             * position : 0
-             * width : 1080
-             * height : 1920
-             */
 
             private List<ContentsBean> contents;
-            /**
-             * id : 100062
-             * name : 内蒙古
-             * name_en : Neimenggu
-             * name_pinyin : nei meng gu|nmg
-             * score : null
-             * level : 3
-             * path : .120001.110000.100062.
-             * published : false
-             * is_in_china : true
-             * user_activities_count : 50
-             * lat : 40.8235
-             * lng : 111.674
-             * is_valid_destination : false
-             * destination_id : 349
-             */
 
             private List<DistrictsBean> districts;
-            private List<?> categories;
+            private List<Type> categories;
 
             public int getId() {
                 return id;
@@ -346,12 +292,42 @@ public class TravelNoteList {
                 this.districts = districts;
             }
 
-            public List<?> getCategories() {
+            public List<Type> getCategories() {
                 return categories;
             }
 
-            public void setCategories(List<?> categories) {
+            public void setCategories(List<Type> categories) {
                 this.categories = categories;
+            }
+
+            public static class Type{
+                private int id;
+                private String name;
+                private String category_type;
+
+                public String getCategory_type() {
+                    return category_type;
+                }
+
+                public void setCategory_type(String category_type) {
+                    this.category_type = category_type;
+                }
+
+                public int getId() {
+                    return id;
+                }
+
+                public void setId(int id) {
+                    this.id = id;
+                }
+
+                public String getName() {
+                    return name;
+                }
+
+                public void setName(String name) {
+                    this.name = name;
+                }
             }
 
             public static class UserBean {

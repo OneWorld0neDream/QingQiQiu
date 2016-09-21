@@ -26,7 +26,7 @@ import okhttp3.Response;
 /**
  * Created by Administrator on 2016/9/20 0020.
  */
-public class TravelNoteFragment extends BaseFragment {
+public class TravelNoteFragment extends BaseFragment implements TravelNoteAdapter.OnItemClickedListener{
 
     private static final String TAG = TravelNoteFragment.class.getSimpleName();
     @BindView(R.id.travelnote_recyclerview)
@@ -56,6 +56,7 @@ public class TravelNoteFragment extends BaseFragment {
         mRecyclerview.setLayoutManager(linearLayoutManager);
         mAdapter = new TravelNoteAdapter(getActivity(),null);
         mRecyclerview.setAdapter(mAdapter);
+        mAdapter.setOnItemClickedListener(this);
     }
 
     private void setupView() {
@@ -83,5 +84,41 @@ public class TravelNoteFragment extends BaseFragment {
                         mAdapter.upData(response.getData());
                     }
                 });
+    }
+
+    @Override
+    public void clickedListener(int position, View itemView) {
+        switch (itemView.getId()) {
+            case R.id.travelnote_content_photo:
+                Log.e(TAG, "clickedListener: 我是头像" );
+                break;
+            case R.id.travelnote_content_platform:
+                Log.e(TAG, "clickedListener: 我是氢直播" );
+                break;
+            case R.id.travelnote_content_attention:
+                Log.e(TAG, "clickedListener: 我是关注" );
+                break;
+            case R.id.travelnote_content_image:
+                Log.e(TAG, "clickedListener: 我是image");
+                break;
+            case R.id.travelnote_content_scrollview:
+                Log.e(TAG, "clickedListener: 我是图片的scrollview " );
+                break;
+            case R.id.travelnote_content_label:
+                Log.e(TAG, "clickedListener: 我是标签的scrollview" );
+                break;
+            case R.id.travelnote_content_praise_layout:
+                Log.e(TAG, "clickedListener: 我是点赞" );
+                break;
+            case R.id.travelnote_content_comment_layout:
+                Log.e(TAG, "clickedListener: 我是评价" );
+                break;
+            case R.id.travelnote_content_collect_layout:
+                Log.e(TAG, "clickedListener: 我是收藏" );
+                break;
+            case R.id.travelnote_content_more:
+                Log.e(TAG, "clickedListener: 我是更多" );
+                break;
+        }
     }
 }
