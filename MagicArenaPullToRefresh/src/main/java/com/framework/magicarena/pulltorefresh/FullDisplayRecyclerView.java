@@ -1,4 +1,4 @@
-package com.qf.lenovo.qingqiqiu.ui.custom;
+package com.framework.magicarena.pulltorefresh;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -25,8 +25,11 @@ public class FullDisplayRecyclerView extends RecyclerView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int width = MeasureSpec.getSize(widthMeasureSpec);
-        int height = MeasureSpec.getSize(heightMeasureSpec);
-        this.setMeasuredDimension(width, height);
+        //        int width = MeasureSpec.getSize(widthMeasureSpec);
+        //        int height = MeasureSpec.getSize(heightMeasureSpec);
+        //        this.setMeasuredDimension(width, height);
+        //        int widthSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 1, MeasureSpec.AT_MOST);
+        int heightSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 1, MeasureSpec.AT_MOST);
+        super.setMeasuredDimension(widthMeasureSpec, heightSpec);
     }
 }

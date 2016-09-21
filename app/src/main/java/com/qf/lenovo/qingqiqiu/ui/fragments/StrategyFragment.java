@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,8 +20,9 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.framework.magicarena.core.widget.decorations.RecyclerViewDivider;
 import com.framework.magicarena.pulltorefresh.PullToRefreshBase;
-import com.framework.magicarena.pulltorefresh.PullToRefreshListView;
+import com.framework.magicarena.pulltorefresh.PullToRefreshFullRecyclerView;
 import com.qf.lenovo.qingqiqiu.R;
+import com.qf.lenovo.qingqiqiu.adapters.StragegyOtherDestinationsListAdapter;
 import com.qf.lenovo.qingqiqiu.adapters.StrategyLocationsGridAdapter;
 import com.qf.lenovo.qingqiqiu.https.DefaultCallbackImp;
 import com.qf.lenovo.qingqiqiu.https.HttpRequestURL;
@@ -52,10 +52,11 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
     @BindView(R.id.txtMore)
     TextView mNearbyMore;
     @BindView(R.id.ptrOtherDestinationsList)
-    PullToRefreshListView mDestinationsPtrList;
+    PullToRefreshFullRecyclerView mDestinationsPtrList;
 
     private StrategyLocationsGridAdapter mNearbyGridAdapter;
-    private ListView mDestinationsList;
+    private RecyclerView mDestinationsList;
+    private StragegyOtherDestinationsListAdapter mDestinationsListAdapter;
 
     //***************************************
     //*	Methods								*
@@ -67,15 +68,15 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
         this.mNearbyLocationsTittle.setText("附近目的地");
         this.mNearbyMore.setText("更多附近目的地");
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 3);
-        this.mNearbyGridList.setLayoutManager(gridLayoutManager);
+        this.mNearbyGridList.setLayoutManager(new GridLayoutManager(this.getActivity(), 3));
         this.mNearbyGridList.addItemDecoration(new RecyclerViewDivider(this.getActivity(), LinearLayoutManager.HORIZONTAL, 10, Color.WHITE));
         this.mNearbyGridAdapter = new StrategyLocationsGridAdapter(this.getActivity(), null, R.layout.strategy_location_grid_view_item);
         this.mNearbyGridList.setAdapter(this.mNearbyGridAdapter);
 
         this.mDestinationsPtrList.setMode(PullToRefreshBase.Mode.DISABLED);
         this.mDestinationsList = this.mDestinationsPtrList.getRefreshableView();
-
+        this.mDestinationsListAdapter = new StragegyOtherDestinationsListAdapter(this.getActivity(), null, R.layout.strategy_location_list_view_item);
+        this.mDestinationsList.setAdapter(this.mDestinationsListAdapter);
     }
 
     private void setupView() {
@@ -100,7 +101,20 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
                     }
                 });
 
-
+        OkHttpUtils.get()
+                .url(HttpRequestURL.STRATEGY_OTHER_DESTINATIONS_URL)
+                .build()
+                .execute(new DefaultCallbackImp<StragegyOtherDestinationsListModel>() {
+                    @Override
+                    public void onResponse(StragegyOtherDestinationsListModel response, int id) {
+                        if (response != null) {
+                            List<StragegyOtherDestinationsListModel.DestinationLocationsList> data = response.getData();
+                            if (data != null) {
+                                StrategyFragment.this.mDestinationsListAdapter.updateDataSouce(data);
+                            }
+                        }
+                    }
+                });
     }
 
     private void initLocation() {

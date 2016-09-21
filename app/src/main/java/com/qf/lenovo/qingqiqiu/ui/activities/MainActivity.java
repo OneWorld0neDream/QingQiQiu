@@ -30,7 +30,8 @@ import butterknife.ButterKnife;
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-
+    @BindView(R.id.main_search_edit)
+    EditText mSearchEdit;
     @BindView(R.id.main_appbar)
     AppBarLayout mainAppbar;
     @BindView(R.id.mian_viewpager)
@@ -61,10 +62,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
          * 添加Fragmemnt
          */
         ArrayList<Fragment> data = new ArrayList<>();
-        data.add(new ItineraryFragment());
-        data.add(new MineFragment());
         data.add(new StrategyFragment());
         data.add(new TravelNoteFragment());
+        data.add(new ItineraryFragment());
+        data.add(new MineFragment());
         /**
          * 绑定适配器，并设置ViewPager的相关属性,设置监听
          */
@@ -125,6 +126,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
          */
         setTabItem(position);
     }
+
     /**
      * 滑动状态改变的监听
      *

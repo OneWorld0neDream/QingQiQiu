@@ -14,7 +14,7 @@
 
     <include layout="@layout/comm_saperator_line"/>
 
-    <com.qf.lenovo.qingqiqiu.ui.custom.FullDisplayRecyclerView
+    <com.framework.magicarena.pulltorefresh.FullDisplayRecyclerView
         android:id="@+id/customLocationList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

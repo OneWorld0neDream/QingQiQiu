@@ -7,15 +7,26 @@
     android:orientation="vertical"
     tools:context=".ui.fragments.StrategyFragment">
 
-    <com.daimajia.slider.library.SliderLayout
-        android:id="@+id/customSliderLayout"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="match_parent">
 
-    <include layout="@layout/strategy_location_list_view_item"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <com.framework.magicarena.pulltorefresh.PullToRefreshRecyclerView
-        android:id="@+id/ptrOtherDestinationsList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+            <com.daimajia.slider.library.SliderLayout
+                android:id="@+id/customSliderLayout"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+
+            <include layout="@layout/strategy_location_list_view_item"/>
+
+            <com.framework.magicarena.pulltorefresh.PullToRefreshFullRecyclerView
+                android:id="@+id/ptrOtherDestinationsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

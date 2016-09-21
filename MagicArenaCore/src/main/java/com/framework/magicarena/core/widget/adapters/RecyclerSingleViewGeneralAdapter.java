@@ -12,7 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -283,8 +283,8 @@ public abstract class RecyclerSingleViewGeneralAdapter<T> extends RecyclerView.A
             View view = this.getView(resID);
 
             if (view instanceof ImageView) {
-                Picasso.with(mConvertView.getContext()).load(url).into((ImageView) view);
-                //                x.image().bind((ImageView) view, url);
+//                Picasso.with(mConvertView.getContext()).load(url).into((ImageView) view);
+                x.image().bind((ImageView) view, url);
             } else {
                 throw new IllegalArgumentException(String.format(TYPE_ERROR_MESSAGE, resID, "ImageView"));
             }

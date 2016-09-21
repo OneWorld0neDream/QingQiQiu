@@ -4,7 +4,11 @@ package com.qf.lenovo.qingqiqiu.https;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.zhy.http.okhttp.callback.Callback;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 import okhttp3.Call;
 import okhttp3.Response;
@@ -14,15 +18,15 @@ import okhttp3.Response;
  */
 public abstract class DefaultCallbackImp<T> extends Callback<T> {
     private static final String TAG = DefaultCallbackImp.class.getSimpleName();
-    private T mTypeHolder;
+    private TypeToken<T> tTypeToken = new TypeToken<T>() {
+    };
 
     @Override
     public T parseNetworkResponse(Response response, int id) throws Exception {
         if (response.isSuccessful()) {
-            Object model = new Gson().fromJson(response.body().string(), mTypeHolder.getClass());
-            if (mTypeHolder.getClass().isInstance(model)) {
-                return ((T) model);
-            }
+            Type genType = this.getClass().getGenericSuperclass();
+            Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+            return (T) new Gson().fromJson(response.body().string(), (Class) params[0]);
         }
         return null;
     }

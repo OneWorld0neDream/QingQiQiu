@@ -5,6 +5,8 @@ import android.app.Application;
 import com.umeng.analytics.MobclickAgent;
 import com.zhy.http.okhttp.OkHttpUtils;
 
+import org.xutils.x;
+
 import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
@@ -34,5 +36,7 @@ public class GlobalApplication extends Application {
                 .build();
 
         OkHttpUtils.initClient(okHttpClient);
+
+        x.Ext.init(this);
     }
 }
