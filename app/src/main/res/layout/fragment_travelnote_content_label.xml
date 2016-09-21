@@ -11,6 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@drawable/selector_travelnote_label_btn"
-        android:textSize="14dp"
+        android:textSize="12sp"
         android:text="@string/travelnote_label" />
 </LinearLayout>
