@@ -20,4 +20,12 @@
     <string name="travelnote_more">更多</string>
     <string name="travelnote_platform">氢大V</string>
     <string name="travelnote_label">标签</string>
+    <string name="onekey_trip">如何一键生成行程</string>
+    <string name="my_trip">我的游记</string>
+    <string name="community">社区</string>
+    <string name="my_collection">我的收藏</string>
+    <string name="my_order">我的携程订单</string>
+    <string name="other">其他</string>
+    <string name="feedback">意见反馈</string>
+    <string name="setting">设置</string>
 </resources>

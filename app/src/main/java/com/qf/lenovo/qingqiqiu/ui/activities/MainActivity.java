@@ -1,5 +1,6 @@
 package com.qf.lenovo.qingqiqiu.ui.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -11,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,10 +27,12 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+
     @BindView(R.id.main_appbar)
     AppBarLayout mainAppbar;
     @BindView(R.id.mian_viewpager)
@@ -39,6 +41,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     TabLayout mTablayout;
     @BindView(R.id.main_search)
     LinearLayout mSearch;
+
 
     private View tablayout;
 
@@ -160,5 +163,15 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         text1.setVisibility(View.VISIBLE);
         image1.setVisibility(View.GONE);
         tabPosition = position;
+    }
+
+    @OnClick(R.id.main_search)
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.main_search:
+                Intent intent = new Intent(this,SearchActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }

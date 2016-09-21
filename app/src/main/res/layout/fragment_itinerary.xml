@@ -2,6 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ff00ff">
-
+   android:gravity="center_horizontal"
+    >
+    <LinearLayout
+        android:id="@+id/fragment_itinerary_onekey"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="150dp">
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/img_home_plan_list"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="20dp">
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="@string/onekey_trip"/>
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@mipmap/img_home_plan_list_right"/>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
