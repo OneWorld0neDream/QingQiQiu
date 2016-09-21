@@ -9,8 +9,10 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qf.lenovo.qingqiqiu.R;
@@ -28,14 +30,19 @@ import butterknife.ButterKnife;
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    @BindView(R.id.main_search_edit)
-    EditText mSearchEdit;
+
     @BindView(R.id.main_appbar)
     AppBarLayout mainAppbar;
     @BindView(R.id.mian_viewpager)
     ViewPager mViewpager;
     @BindView(R.id.main_tablayout)
     TabLayout mTablayout;
+    @BindView(R.id.main_search)
+    LinearLayout mSearch;
+
+    private View tablayout;
+
+    private int tabPosition;
 
 
     private String[] tabText = {"攻略", "游记", "行程单", "我的"};
@@ -71,7 +78,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
          */
         mTablayout.setupWithViewPager(mViewpager);
         mTablayout.setSelectedTabIndicatorColor(Color.WHITE);
-        mTablayout.setTabTextColors(Color.WHITE,Color.BLACK);
         setupTab();
 
 
@@ -81,13 +87,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
      * 给Tab设置图片和文字
      */
     private void setupTab() {
-        Log.e(TAG, "setupTab: " );
-        for (int i = 0; i < 4; i++) {
-            View tablayout = LayoutInflater.from(this).inflate(R.layout.activity_mian_tab, null);
-//            ImageView img = (ImageView) tablayout.findViewById(R.id.activity_main_tab_img);
+        Log.e(TAG, "setupTab: " + mTablayout.getTabCount());
+        for (int i = 0; i < mTablayout.getTabCount(); i++) {
+            tablayout = LayoutInflater.from(this).inflate(R.layout.activity_mian_tab, null);
+            ImageView img = (ImageView) tablayout.findViewById(R.id.activity_main_tab_img);
             TextView txt = (TextView) tablayout.findViewById(R.id.activity_main_tab_text);
             txt.setText(tabText[i]);
-//            img.setImageResource(tabImg[i]);
+            img.setImageResource(tabImg[i]);
             TabLayout.Tab tab = mTablayout.getTabAt(i);
             tab.setCustomView(tablayout);
         }
@@ -105,7 +111,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
      */
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
     }
 
     /**
@@ -115,9 +120,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
      */
     @Override
     public void onPageSelected(int position) {
-
+        /**
+         * 设置Tab文字和图片的出现和隐藏
+         */
+        setTabItem(position);
     }
-
     /**
      * 滑动状态改变的监听
      *
@@ -128,4 +135,29 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     }
 //=============================================================================================
+
+    private void setTabItem(int position) {
+        /**
+         * 设置图片出现的动画
+         */
+        TranslateAnimation startAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+                -1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
+        startAnimation.setDuration(500);
+        TabLayout.Tab tabAt = mTablayout.getTabAt(position);
+        View customView = tabAt.getCustomView();
+        TextView text = (TextView) customView.findViewById(R.id.activity_main_tab_text);
+        ImageView image = (ImageView) customView.findViewById(R.id.activity_main_tab_img);
+        text.setVisibility(View.GONE);
+        image.startAnimation(startAnimation);
+        image.setVisibility(View.VISIBLE);
+
+        TabLayout.Tab tabAt1 = mTablayout.getTabAt(tabPosition);
+        View customView1 = tabAt1.getCustomView();
+        TextView text1 = (TextView) customView1.findViewById(R.id.activity_main_tab_text);
+        ImageView image1 = (ImageView) customView1.findViewById(R.id.activity_main_tab_img);
+        text1.setVisibility(View.VISIBLE);
+        image1.setVisibility(View.GONE);
+        tabPosition = position;
+    }
 }
