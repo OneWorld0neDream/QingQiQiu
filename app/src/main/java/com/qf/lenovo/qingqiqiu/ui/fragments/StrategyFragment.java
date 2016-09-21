@@ -1,5 +1,6 @@
 package com.qf.lenovo.qingqiqiu.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +19,7 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.framework.magicarena.core.widget.adapters.RecyclerSingleViewGeneralAdapter;
 import com.qf.lenovo.qingqiqiu.R;
 import com.qf.lenovo.qingqiqiu.adapters.StragegyOtherDestinationsListAdapter;
 import com.qf.lenovo.qingqiqiu.adapters.StrategyLocationsGridAdapter;
@@ -25,14 +28,20 @@ import com.qf.lenovo.qingqiqiu.https.HttpRequestURL;
 import com.qf.lenovo.qingqiqiu.models.StragegyOtherDestinationsListModel;
 import com.qf.lenovo.qingqiqiu.models.StrategyAdvListModel;
 import com.qf.lenovo.qingqiqiu.models.StrategyNearbyLocationsListModel;
+import com.qf.lenovo.qingqiqiu.storage.StorageFileName;
 import com.zhy.http.okhttp.OkHttpUtils;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class StrategyFragment extends BaseFragment implements AMapLocationListener {
+public class StrategyFragment extends BaseFragment implements AMapLocationListener,
+        RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> {
     //*******************************************
     //*	Instance Area 							*
     //*******************************************
@@ -49,10 +58,16 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
     TextView mNearbyMore;
     @BindView(R.id.customOtherDestinationsList)
     RecyclerView mDestinationsList;
+    @BindView(R.id.includeNearByDestination)
+    LinearLayout mNearByDestinationBlock;
+    @BindView(R.id.llHistoryTag)
+    LinearLayout mHistoryTags;
+
     //    RecyclerView mDestinationsPtrList;
 
     private StrategyLocationsGridAdapter mNearbyGridAdapter;
     private StragegyOtherDestinationsListAdapter mDestinationsListAdapter;
+    private List<String> mHistoryTagsList;
 
     //***************************************
     //*	Methods								*
@@ -68,6 +83,7 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
         //        this.mNearbyGridList.addItemDecoration(new RecyclerViewDivider(this.getActivity(), LinearLayoutManager.HORIZONTAL, 10, Color.WHITE));
         this.mNearbyGridAdapter = new StrategyLocationsGridAdapter(this.getActivity(), null, R.layout.strategy_location_grid_view_item);
         this.mNearbyGridList.setAdapter(this.mNearbyGridAdapter);
+        this.mNearbyGridAdapter.setOnItemViewClickListener(this);
 
         //        this.mDestinationsPtrList.setMode(PullToRefreshBase.Mode.DISABLED);
         //        this.mDestinationsList = this.mDestinationsPtrList.getRefreshableView();
@@ -76,6 +92,7 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
         this.mDestinationsList.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         this.mDestinationsListAdapter = new StragegyOtherDestinationsListAdapter(this.getActivity(), null, R.layout.strategy_location_list_view_item);
         this.mDestinationsList.setAdapter(this.mDestinationsListAdapter);
+        this.mDestinationsListAdapter.setCallback(this);
     }
 
     private void setupView() {
@@ -114,6 +131,8 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
                         }
                     }
                 });
+
+        this.readHistoryTags();
     }
 
     private void initLocation() {
@@ -126,6 +145,46 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
         aMapLocationClient.startLocation();
     }
 
+    private void readHistoryTags() {
+        ObjectInputStream objectInputStream = null;
+
+        try {
+            objectInputStream = new ObjectInputStream(this.getActivity().openFileInput(StorageFileName.INTERSTORAGE_HISTORY_TAGS_FILE_NAME));
+            this.mHistoryTagsList = (ArrayList<String>) objectInputStream.readObject();
+        } catch (Exception e) {
+            this.mHistoryTagsList = new ArrayList<>();
+        } finally {
+            if (objectInputStream != null) {
+                try {
+                    objectInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        this.refreshHistoryTags();
+    }
+
+    private void refreshHistoryTags() {
+        if (this.mHistoryTagsList != null && this.mHistoryTagsList.size() > 0) {
+            this.mHistoryTags.removeAllViews();
+            this.mHistoryTags.setVisibility(View.VISIBLE);
+
+            for (int index = this.mHistoryTagsList.size() - 1; index >= 0; index--) {
+                TextView tagView = new TextView(this.getActivity());
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.setMargins(5, 0, 5, 0);
+                tagView.setBackgroundResource(R.drawable.shape_history_tag_border);
+                tagView.setText(this.mHistoryTagsList.get(index));
+                tagView.setTextSize(12);
+                tagView.setLayoutParams(params);
+                this.mHistoryTags.addView(tagView);
+            }
+        } else {
+            this.mHistoryTags.setVisibility(View.GONE);
+        }
+    }
 
     //***********************************
     //*	Implements Methods				*
@@ -152,8 +211,20 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
                         }
                     });
         } else {
+            this.mNearByDestinationBlock.setVisibility(View.GONE);
             Toast.makeText(this.getActivity(), this.getString(R.string.strategy_location_failed), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    //*********************************** onItemClickedListener ***********************************
+    @Override
+    public void onItemClicked(RecyclerView parentView, View itemView, StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem item, int position) {
+        if (this.mHistoryTagsList.contains(item.getName())) {
+            this.mHistoryTagsList.remove(item.getName());
+        }
+
+        this.mHistoryTagsList.add(item.getName());
+        this.refreshHistoryTags();
     }
 
     //***********************************
@@ -174,5 +245,27 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
 
         this.initView();
         this.setupView();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        ObjectOutputStream output = null;
+
+        try {
+            output = new ObjectOutputStream(this.getActivity().openFileOutput(StorageFileName.INTERSTORAGE_HISTORY_TAGS_FILE_NAME, Context.MODE_PRIVATE));
+            output.writeObject(this.mHistoryTagsList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (output != null) {
+                try {
+                    output.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

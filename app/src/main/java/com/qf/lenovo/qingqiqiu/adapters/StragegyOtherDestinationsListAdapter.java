@@ -17,7 +17,9 @@ import java.util.List;
  * Created by 31098 on 9/21/2016.
  */
 
-public class StragegyOtherDestinationsListAdapter extends RecyclerSingleViewGeneralAdapter<StragegyOtherDestinationsListModel.DestinationLocationsList> {
+public class StragegyOtherDestinationsListAdapter extends RecyclerSingleViewGeneralAdapter<StragegyOtherDestinationsListModel.DestinationLocationsList>
+        implements RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> {
+    private RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> mCallback;
 
     /**
      * Initializes a new instance of adapter for {@link RecyclerView.Adapter}.
@@ -46,6 +48,20 @@ public class StragegyOtherDestinationsListAdapter extends RecyclerSingleViewGene
         locationList.setHasFixedSize(false);
 
         locationList.setLayoutManager(new GridLayoutManager(this.mContext, 3));
-        locationList.setAdapter(new StrategyLocationsGridAdapter(this.mContext, item.getDestinations(), R.layout.strategy_location_grid_view_item));
+        StrategyLocationsGridAdapter adapter = new StrategyLocationsGridAdapter(this.mContext, item.getDestinations(), R.layout.strategy_location_grid_view_item);
+        locationList.setAdapter(adapter);
+
+        adapter.setOnItemViewClickListener(this);
+    }
+
+    public void setCallback(RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> callback) {
+        this.mCallback = callback;
+    }
+
+    @Override
+    public void onItemClicked(RecyclerView parentView, View itemView, StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem item, int position) {
+        if (this.mCallback != null) {
+            this.mCallback.onItemClicked(parentView, itemView, item, position);
+        }
     }
 }
