@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">QingQiQiu</string>
     <string name="welcome_skip">跳过(%d)</string>
+
+    <string-array name="tabcontent">
+        <item>攻略</item>
+        <item>游记</item>
+        <item>行程单</item>
+        <item>我的</item>
+    </string-array>
 </resources>
