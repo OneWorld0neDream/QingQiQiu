@@ -32,10 +32,9 @@ import butterknife.OnClick;
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/master
+
+
     @BindView(R.id.main_appbar)
     AppBarLayout mainAppbar;
     @BindView(R.id.mian_viewpager)
