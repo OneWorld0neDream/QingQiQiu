@@ -30,8 +30,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    @BindView(R.id.main_search_edit)
-    EditText mSearchEdit;
+
     @BindView(R.id.main_appbar)
     AppBarLayout mainAppbar;
     @BindView(R.id.mian_viewpager)
@@ -46,7 +45,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private int tabPosition;
 
 
-    private String[] tabText = {"攻略", "游记", "行程单", "我的"};
+    private String[] tabText = this.getResources().getStringArray(R.array.tabcontent);
     private int[] tabImg = {R.mipmap.icon_tab_home, R.mipmap.icon_tab_trip, R.mipmap.icon_tab_plan, R.mipmap.icon_tab_my};
 
     @Override
