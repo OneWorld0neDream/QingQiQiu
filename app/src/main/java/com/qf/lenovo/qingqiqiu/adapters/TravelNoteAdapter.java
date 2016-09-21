@@ -76,7 +76,7 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
         }else {
             holder.travelnoteAttention.setText("关注她");
         }
-        Picasso.with(mContext).load(mData.get(position).getActivity().getContents().get(0).getPhoto_url()).into(holder.travelnoteImage);
+//        Picasso.with(mContext).load(mData.get(position).getActivity().getContents().get(0).getPhoto_url()).into(holder.travelnoteImage);
         x.image().bind(holder.travelnoteImage,mData.get(position).getActivity().getContents().get(0).getPhoto_url());
 
         for (int i = 1; i < mData.get(position).getActivity().getContents().size(); i++) {
@@ -93,6 +93,21 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
         }
         holder.travelnoteTitle.setText(mData.get(position).getActivity().getTopic());
         holder.travelnoteContent.setText(mData.get(position).getActivity().getDescription());
+        int count = mData.get(position).getActivity().getDistricts().size() + mData.get(position).getActivity().getCategories().size() + 1;
+        for (int i = 0; i < count; i++) {
+            View label = View.inflate(mContext, R.layout.fragment_travelnote_content_label, null);
+            View child = label.findViewById(R.id.travelnote_content_label_scrollview);
+            Button button = (Button) child.findViewById(R.id.travelnote_content_label_btn);
+            if(i< mData.get(position).getActivity().getDistricts().size()){
+                button.setText(mData.get(position).getActivity().getDistricts().get(i).getName());
+            }else if( i>= mData.get(position).getActivity().getDistricts().size() && i<mData.get(position).getActivity().getCategories().size()){
+                button.setText(mData.get(position).getActivity().getCategories().get(i).getClass().getName());
+            }else if(i == count-1){
+//                button.setText(mData.get(position).getActivity().getPoi().getName());
+            }
+            holder.travelnoteLabel.addView(label);
+        }
+
         holder.travelnotePraise.setText("点赞");
         holder.travelnoteComment.setText("评论");
         holder.travelnoteCollect.setText("收藏");
@@ -128,6 +143,8 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
         TextView travelnoteTitle;
         @BindView(R.id.travelnote_content_content)
         TextView travelnoteContent;
+        @BindView(R.id.travelnote_content_label)
+        LinearLayout travelnoteLabel;
         @BindView(R.id.travelnote_content_praise)
         TextView travelnotePraise;
         @BindView(R.id.travelnote_content_comment)
@@ -136,6 +153,7 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
         TextView travelnoteCollect;
         @BindView(R.id.travelnote_content_more)
         TextView travelnoteMore;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
