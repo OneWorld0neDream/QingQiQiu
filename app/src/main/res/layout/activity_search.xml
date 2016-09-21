@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.qf.lenovo.qingqiqiu.ui.activities.SearchActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingRight="10dp"
+        android:paddingLeft="20dp"
+        android:gravity="center_vertical"
+        android:background="@color/colorPrimary">
+        <ImageView
+            android:id="@+id/search_back"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/default_back_icon"/>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:gravity="center_vertical">
+            <EditText
+                android:id="@+id/search_edit"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="搜索目的地、游记与用户"/>
+            <ImageView
+                android:id="@+id/search_clear"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/abc_ic_clear_mtrl_alpha"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>
