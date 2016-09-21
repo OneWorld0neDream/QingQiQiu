@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">QingQiQiu</string>
     <string name="welcome_skip">跳过(%d)</string>
+    <string name="strategy_location_failed">定位失败</string>
 </resources>

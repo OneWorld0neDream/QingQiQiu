@@ -123,4 +123,11 @@ public class PullToRefreshRecyclerView extends PullToRefreshBase<RecyclerView> {
 
         return itemCount == childAdapterPosition + 1 ? paddingBottom + marginBottom + childBottom == refreshViewHeight : false;
     }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+        this.setMeasuredDimension(width, height);
+    }
 }

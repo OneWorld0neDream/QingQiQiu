@@ -4,10 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.fragments.StrategyFragment">
 
     <com.daimajia.slider.library.SliderLayout
         android:id="@+id/customSliderLayout"
         android:layout_width="match_parent"
         android:layout_height="200dp"/>
+
+    <include layout="@layout/strategy_location_list_view_item"/>
+
+    <com.framework.magicarena.pulltorefresh.PullToRefreshRecyclerView
+        android:id="@+id/ptrOtherDestinationsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="10dp"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txtTopTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="附近的目的地"
+        android:textSize="12sp"/>
+
+    <include layout="@layout/comm_saperator_line"/>
+
+    <com.qf.lenovo.qingqiqiu.ui.custom.FullDisplayRecyclerView
+        android:id="@+id/customLocationList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <include layout="@layout/comm_saperator_line"/>
+
+    <TextView
+        android:id="@+id/txtMore"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="MORE"
+        android:textColor="#00FFFF"/>
+</LinearLayout>

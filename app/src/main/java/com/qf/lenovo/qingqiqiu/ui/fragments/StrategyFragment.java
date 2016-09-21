@@ -1,17 +1,31 @@
 package com.qf.lenovo.qingqiqiu.ui.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.framework.magicarena.core.widget.decorations.RecyclerViewDivider;
+import com.framework.magicarena.pulltorefresh.PullToRefreshListView;
 import com.qf.lenovo.qingqiqiu.R;
+import com.qf.lenovo.qingqiqiu.adapters.StrategyLocationsGridAdapter;
 import com.qf.lenovo.qingqiqiu.https.DefaultCallbackImp;
 import com.qf.lenovo.qingqiqiu.https.HttpRequestURL;
 import com.qf.lenovo.qingqiqiu.models.StrategyAdvListModel;
+import com.qf.lenovo.qingqiqiu.models.StrategyNearbyLocationsListModel;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.List;
@@ -19,7 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class StrategyFragment extends BaseFragment {
+public class StrategyFragment extends BaseFragment implements AMapLocationListener {
     //*******************************************
     //*	Instance Area 							*
     //*******************************************
@@ -28,6 +42,16 @@ public class StrategyFragment extends BaseFragment {
     //***************************************
     @BindView(R.id.customSliderLayout)
     SliderLayout mSliderLayout;
+    @BindView(R.id.txtTopTitle)
+    TextView mNearbyLocationsTittle;
+    @BindView(R.id.customLocationList)
+    RecyclerView mNearbyGridList;
+    @BindView(R.id.txtMore)
+    TextView mNearbyMore;
+    @BindView(R.id.ptrOtherDestinationsList)
+    PullToRefreshListView mDestinationsPtrList;
+
+    private StrategyLocationsGridAdapter mNearbyGridAdapter;
 
     //***************************************
     //*	Methods								*
@@ -36,32 +60,80 @@ public class StrategyFragment extends BaseFragment {
     //*	Functional Methods		    	*
     //***********************************
     private void initView() {
+        this.mNearbyLocationsTittle.setText("附近目的地");
+        this.mNearbyMore.setText("更多附近目的地");
 
-
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 3);
+        this.mNearbyGridList.setLayoutManager(gridLayoutManager);
+        this.mNearbyGridList.addItemDecoration(new RecyclerViewDivider(this.getActivity(), LinearLayoutManager.HORIZONTAL, 10, Color.WHITE));
+        this.mNearbyGridAdapter = new StrategyLocationsGridAdapter(this.getActivity(), null, R.layout.strategy_location_grid_view_item);
+        this.mNearbyGridList.setAdapter(this.mNearbyGridAdapter);
     }
-
 
     private void setupView() {
-        OkHttpUtils.get().url(HttpRequestURL.STRATEGY_ADVERSEMENT_URL).build().execute(new DefaultCallbackImp<StrategyAdvListModel>() {
-            @Override
-            public void onResponse(StrategyAdvListModel response, int id) {
-                if (response != null) {
-                    List<StrategyAdvListModel.StrategyAdvItemModel> advData = response.getData();
-                    if (advData != null) {
-                        for (StrategyAdvListModel.StrategyAdvItemModel item : advData) {
-                            TextSliderView textSliderView = new TextSliderView(StrategyFragment.this.getActivity());
-                            textSliderView.image(item.getPhoto().getPhoto_url()).description(item.getTopic());
-                            StrategyFragment.this.mSliderLayout.addSlider(textSliderView);
+        this.initLocation();
+
+        OkHttpUtils.get()
+                .url(HttpRequestURL.STRATEGY_ADVERSEMENT_URL)
+                .build()
+                .execute(new DefaultCallbackImp<StrategyAdvListModel>() {
+                    @Override
+                    public void onResponse(StrategyAdvListModel response, int id) {
+                        if (response != null) {
+                            List<StrategyAdvListModel.StrategyAdvItemModel> advData = response.getData();
+                            if (advData != null) {
+                                for (StrategyAdvListModel.StrategyAdvItemModel item : advData) {
+                                    TextSliderView textSliderView = new TextSliderView(StrategyFragment.this.getActivity());
+                                    textSliderView.image(item.getPhoto().getPhoto_url()).description(item.getTopic());
+                                    StrategyFragment.this.mSliderLayout.addSlider(textSliderView);
+                                }
+                            }
                         }
                     }
-                }
-            }
-        });
+                });
+
+
     }
+
+    private void initLocation() {
+        AMapLocationClient aMapLocationClient = new AMapLocationClient(this.getActivity());
+        AMapLocationClientOption aMapLocationClientOption = new AMapLocationClientOption();
+        aMapLocationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        aMapLocationClientOption.setOnceLocation(true);
+        aMapLocationClient.setLocationOption(aMapLocationClientOption);
+        aMapLocationClient.setLocationListener(this);
+        aMapLocationClient.startLocation();
+    }
+
 
     //***********************************
     //*	Implements Methods				*
     //***********************************
+    //*********************************** onLocationChangedListener ***********************************
+    @Override
+    public void onLocationChanged(AMapLocation aMapLocation) {
+        if (aMapLocation.getErrorCode() == AMapLocation.LOCATION_SUCCESS) {
+            OkHttpUtils.get()
+                    .url(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_URL)
+                    .addParams(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LAT, String.valueOf(aMapLocation.getLatitude()))
+                    .addParams(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LNG, String.valueOf(aMapLocation.getLongitude()))
+                    .addParams(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_RECOMMAND, "")
+                    .build()
+                    .execute(new DefaultCallbackImp<StrategyNearbyLocationsListModel>() {
+                        @Override
+                        public void onResponse(StrategyNearbyLocationsListModel response, int id) {
+                            if (response != null) {
+                                List<StrategyNearbyLocationsListModel.StrategyNearbyLocationsItem> data = response.getData();
+                                if (data != null) {
+                                    StrategyFragment.this.mNearbyGridAdapter.updateDataSouce(data);
+                                }
+                            }
+                        }
+                    });
+        } else {
+            Toast.makeText(this.getActivity(), this.getString(R.string.strategy_location_failed), Toast.LENGTH_SHORT).show();
+        }
+    }
 
     //***********************************
     //*	Overrides Methods				*

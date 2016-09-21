@@ -39,7 +39,6 @@ public class MainActivity extends BaseActivity {
 
         AddFragmentAdapter adapter = new AddFragmentAdapter(getSupportFragmentManager(),data);
         mianViewpager.setAdapter(adapter);
-
     }
 
 
