@@ -126,8 +126,10 @@ public class PullToRefreshRecyclerView extends PullToRefreshBase<RecyclerView> {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int width = MeasureSpec.getSize(widthMeasureSpec);
-        int height = MeasureSpec.getSize(heightMeasureSpec);
-        this.setMeasuredDimension(width, height);
+        //        int width = MeasureSpec.getSize(widthMeasureSpec);
+        //        int height = MeasureSpec.getSize(heightMeasureSpec);
+        //        this.setMeasuredDimension(width, height);
+        int heightSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 1, MeasureSpec.AT_MOST);
+        super.onMeasure(widthMeasureSpec, heightSpec);
     }
 }

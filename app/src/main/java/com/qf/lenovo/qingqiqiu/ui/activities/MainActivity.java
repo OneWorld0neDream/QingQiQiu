@@ -33,6 +33,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
+
+
     @BindView(R.id.main_appbar)
     AppBarLayout mainAppbar;
     @BindView(R.id.mian_viewpager)

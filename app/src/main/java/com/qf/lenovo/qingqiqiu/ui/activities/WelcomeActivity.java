@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.qf.lenovo.qingqiqiu.R;
-import com.qf.lenovo.qingqiqiu.configurations.PreferenceConfig;
+import com.qf.lenovo.qingqiqiu.storage.StorageFileName;
 
 import java.util.Random;
 
@@ -76,10 +76,10 @@ public class WelcomeActivity extends BaseActivity implements
         this.mHandler = new Handler(this);
 
         SharedPreferences preferences = this.getPreferences(MODE_PRIVATE);
-        boolean firstStart = preferences.getBoolean(PreferenceConfig.PREFERENCE_KEY_FIRST_START, true);
+        boolean firstStart = preferences.getBoolean(StorageFileName.PREFERENCE_KEY_FIRST_START, true);
 
-        if (true) {
-            preferences.edit().putBoolean(PreferenceConfig.PREFERENCE_KEY_FIRST_START, false).apply();
+        if (firstStart) {
+            preferences.edit().putBoolean(StorageFileName.PREFERENCE_KEY_FIRST_START, false).apply();
             this.mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT_START_MEDIA, WELCOME_PAGE_DURATION);
         } else {
             Intent intent = new Intent(this, MainActivity.class);

@@ -21,10 +21,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"/>
 
-            <include layout="@layout/strategy_location_list_view_item"/>
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:scrollbars="none"
+                android:visibility="visible">
 
-            <com.framework.magicarena.pulltorefresh.PullToRefreshFullRecyclerView
-                android:id="@+id/ptrOtherDestinationsList"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/strategy_histroy_tag"/>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:background="@color/cardview_dark_background"/>
+
+                    <LinearLayout
+                        android:id="@+id/llHistoryTag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal"/>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <include
+                android:id="@+id/includeNearByDestination"
+                layout="@layout/strategy_location_list_view_item"/>
+
+            <com.framework.magicarena.pulltorefresh.FullDisplayRecyclerView
+                android:id="@+id/customOtherDestinationsList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </LinearLayout>

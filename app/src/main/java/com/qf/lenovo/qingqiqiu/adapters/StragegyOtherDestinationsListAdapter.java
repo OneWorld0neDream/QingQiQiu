@@ -1,13 +1,13 @@
 package com.qf.lenovo.qingqiqiu.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.TextView;
 
 import com.framework.magicarena.core.widget.adapters.RecyclerSingleViewGeneralAdapter;
-import com.framework.magicarena.core.widget.decorations.RecyclerViewDivider;
 import com.qf.lenovo.qingqiqiu.R;
 import com.qf.lenovo.qingqiqiu.models.StragegyOtherDestinationsListModel;
 
@@ -17,7 +17,9 @@ import java.util.List;
  * Created by 31098 on 9/21/2016.
  */
 
-public class StragegyOtherDestinationsListAdapter extends RecyclerSingleViewGeneralAdapter<StragegyOtherDestinationsListModel.DestinationLocationsList> {
+public class StragegyOtherDestinationsListAdapter extends RecyclerSingleViewGeneralAdapter<StragegyOtherDestinationsListModel.DestinationLocationsList>
+        implements RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> {
+    private RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> mCallback;
 
     /**
      * Initializes a new instance of adapter for {@link RecyclerView.Adapter}.
@@ -32,10 +34,34 @@ public class StragegyOtherDestinationsListAdapter extends RecyclerSingleViewGene
     @Override
     protected void bindDataSource(ViewHolder holder, StragegyOtherDestinationsListModel.DestinationLocationsList item, int position) {
         holder.setViewText(R.id.txtTopTitle, item.getName());
-        holder.setViewText(R.id.txtMore, item.getButton_text());
+
+        TextView buttomText = holder.getView(R.id.txtMore);
+        String buttonTest = item.getButton_text();
+        if (!TextUtils.isEmpty(buttonTest)) {
+            holder.setViewText(R.id.txtMore, buttonTest);
+            buttomText.setVisibility(View.VISIBLE);
+        } else {
+            buttomText.setVisibility(View.GONE);
+        }
+
         RecyclerView locationList = holder.getView(R.id.customLocationList);
+        locationList.setHasFixedSize(false);
+
         locationList.setLayoutManager(new GridLayoutManager(this.mContext, 3));
-        locationList.addItemDecoration(new RecyclerViewDivider(this.mContext, LinearLayoutManager.HORIZONTAL, 10, Color.WHITE));
-        locationList.setAdapter(new StrategyLocationsGridAdapter(this.mContext, item.getDestinations(), R.layout.strategy_location_grid_view_item));
+        StrategyLocationsGridAdapter adapter = new StrategyLocationsGridAdapter(this.mContext, item.getDestinations(), R.layout.strategy_location_grid_view_item);
+        locationList.setAdapter(adapter);
+
+        adapter.setOnItemViewClickListener(this);
+    }
+
+    public void setCallback(RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> callback) {
+        this.mCallback = callback;
+    }
+
+    @Override
+    public void onItemClicked(RecyclerView parentView, View itemView, StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem item, int position) {
+        if (this.mCallback != null) {
+            this.mCallback.onItemClicked(parentView, itemView, item, position);
+        }
     }
 }

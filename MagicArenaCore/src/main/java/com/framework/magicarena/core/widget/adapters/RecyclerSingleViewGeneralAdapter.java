@@ -109,7 +109,7 @@ public abstract class RecyclerSingleViewGeneralAdapter<T> extends RecyclerView.A
      *
      * @param onItemViewClickedListener specified listener when {@linkplain RecyclerView}'s item is clicked
      */
-    protected final void setOnItemViewClickListener(OnItemViewClickedListener onItemViewClickedListener) {
+    public final void setOnItemViewClickListener(OnItemViewClickedListener onItemViewClickedListener) {
         this.mItemViewClickListener = onItemViewClickedListener;
     }
 
@@ -283,7 +283,7 @@ public abstract class RecyclerSingleViewGeneralAdapter<T> extends RecyclerView.A
             View view = this.getView(resID);
 
             if (view instanceof ImageView) {
-//                Picasso.with(mConvertView.getContext()).load(url).into((ImageView) view);
+                //                Picasso.with(mConvertView.getContext()).load(url).into((ImageView) view);
                 x.image().bind((ImageView) view, url);
             } else {
                 throw new IllegalArgumentException(String.format(TYPE_ERROR_MESSAGE, resID, "ImageView"));

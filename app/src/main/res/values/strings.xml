@@ -20,6 +20,11 @@
     <string name="travelnote_more">更多</string>
     <string name="travelnote_platform">氢大V</string>
     <string name="travelnote_label">标签</string>
+
+    <string name="strategy_histroy_tag">最近想去</string>
+    <string name="strategy_nearby_destination">附近目的地</string>
+    <string name="strategy_nearby_destination_more">更多附近目的地</string>
+
     <string name="onekey_trip">如何一键生成行程</string>
     <string name="my_trip">我的游记</string>
     <string name="community">社区</string>

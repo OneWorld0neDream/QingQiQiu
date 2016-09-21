@@ -124,13 +124,14 @@ public class PullToRefreshFullRecyclerView extends PullToRefreshBase<FullDisplay
         return itemCount == childAdapterPosition + 1 ? paddingBottom + marginBottom + childBottom == refreshViewHeight : false;
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int width = MeasureSpec.getSize(widthMeasureSpec);
-        int height = MeasureSpec.getSize(heightMeasureSpec);
-        this.setMeasuredDimension(width, height);
-        //        this.setMeasuredDimension(width, height);
-        //        int heightSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 1, MeasureSpec.AT_MOST);
-        //        super.setMeasuredDimension(widthMeasureSpec, heightSpec);
-    }
+//    @Override
+//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+//        //        int width = MeasureSpec.getSize(widthMeasureSpec);
+//        //        int height = MeasureSpec.getSize(heightMeasureSpec);
+//        //        this.setMeasuredDimension(width, height);
+//        //        this.setMeasuredDimension(width, height);
+//        int width = MeasureSpec.getSize(widthMeasureSpec);
+//        int height = MeasureSpec.getSize(heightMeasureSpec);
+//        this.setMeasuredDimension(width, height);
+//    }
 }
