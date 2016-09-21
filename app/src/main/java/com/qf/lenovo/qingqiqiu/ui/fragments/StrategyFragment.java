@@ -26,6 +26,7 @@ import com.qf.lenovo.qingqiqiu.R;
 import com.qf.lenovo.qingqiqiu.adapters.StrategyLocationsGridAdapter;
 import com.qf.lenovo.qingqiqiu.https.DefaultCallbackImp;
 import com.qf.lenovo.qingqiqiu.https.HttpRequestURL;
+import com.qf.lenovo.qingqiqiu.models.StragegyOtherDestinationsListModel;
 import com.qf.lenovo.qingqiqiu.models.StrategyAdvListModel;
 import com.qf.lenovo.qingqiqiu.models.StrategyNearbyLocationsListModel;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -75,7 +76,6 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
         this.mDestinationsPtrList.setMode(PullToRefreshBase.Mode.DISABLED);
         this.mDestinationsList = this.mDestinationsPtrList.getRefreshableView();
 
-        this.mDestinationsList
     }
 
     private void setupView() {
@@ -131,7 +131,7 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
                         @Override
                         public void onResponse(StrategyNearbyLocationsListModel response, int id) {
                             if (response != null) {
-                                List<StrategyNearbyLocationsListModel.StrategyNearbyLocationsItem> data = response.getData();
+                                List<StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> data = response.getData();
                                 if (data != null) {
                                     StrategyFragment.this.mNearbyGridAdapter.updateDataSouce(data);
                                 }

@@ -10,7 +10,7 @@ public class StragegyOtherDestinationsListModel {
 
     private String message;
     private int status;
-    private List<DataBean> data;
+    private List<DestinationLocationsList> data;
 
     public String getMessage() {
         return message;
@@ -28,19 +28,19 @@ public class StragegyOtherDestinationsListModel {
         this.status = status;
     }
 
-    public List<DataBean> getData() {
+    public List<DestinationLocationsList> getData() {
         return data;
     }
 
-    public void setData(List<DataBean> data) {
+    public void setData(List<DestinationLocationsList> data) {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DestinationLocationsList {
         private String name;
         private String button_text;
         private String region;
-        private List<DestinationsBean> destinations;
+        private List<DestinationsLocationItem> destinations;
 
         public String getName() {
             return name;
@@ -66,15 +66,15 @@ public class StragegyOtherDestinationsListModel {
             this.region = region;
         }
 
-        public List<DestinationsBean> getDestinations() {
+        public List<DestinationsLocationItem> getDestinations() {
             return destinations;
         }
 
-        public void setDestinations(List<DestinationsBean> destinations) {
+        public void setDestinations(List<DestinationsLocationItem> destinations) {
             this.destinations = destinations;
         }
 
-        public static class DestinationsBean {
+        public static class DestinationsLocationItem {
             private int id;
             private double lat;
             private double lng;
