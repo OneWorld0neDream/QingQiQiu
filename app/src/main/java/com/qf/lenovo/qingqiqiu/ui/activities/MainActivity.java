@@ -45,7 +45,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private int tabPosition;
 
 
-    private String[] tabText = this.getResources().getStringArray(R.array.tabcontent);
+    private String[] tabText = {"攻略", "游记", "行程单", "我的"};
     private int[] tabImg = {R.mipmap.icon_tab_home, R.mipmap.icon_tab_trip, R.mipmap.icon_tab_plan, R.mipmap.icon_tab_my};
 
     @Override

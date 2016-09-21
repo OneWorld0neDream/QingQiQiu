@@ -37,11 +37,11 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="100dp"/>
         <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:background="@drawable/selector_fragment_mine_more_bg"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="15dp"
             />
     </LinearLayout>
     <View
