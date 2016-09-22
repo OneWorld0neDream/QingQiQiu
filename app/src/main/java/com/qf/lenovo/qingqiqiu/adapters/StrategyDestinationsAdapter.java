@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.framework.magicarena.core.widget.adapters.RecyclerSingleViewGeneralAdapter;
 import com.qf.lenovo.qingqiqiu.R;
-import com.qf.lenovo.qingqiqiu.models.StragegyOtherDestinationsListModel;
+import com.qf.lenovo.qingqiqiu.models.StragegyDestinationsListModel;
 
 import java.util.List;
 
@@ -17,9 +17,9 @@ import java.util.List;
  * Created by 31098 on 9/21/2016.
  */
 
-public class StragegyOtherDestinationsListAdapter extends RecyclerSingleViewGeneralAdapter<StragegyOtherDestinationsListModel.DestinationLocationsList>
-        implements RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> {
-    private RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> mCallback;
+public class StrategyDestinationsAdapter extends RecyclerSingleViewGeneralAdapter<StragegyDestinationsListModel.DestinationLocationsList>
+        implements RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> {
+    private RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> mCallback;
 
     /**
      * Initializes a new instance of adapter for {@link RecyclerView.Adapter}.
@@ -27,12 +27,12 @@ public class StragegyOtherDestinationsListAdapter extends RecyclerSingleViewGene
      * @param data          initial data source for adapter,<code>null</code> may be allowed
      * @param layoutResId   resource id for layout of {@link RecyclerView}
      */
-    public StragegyOtherDestinationsListAdapter(Context context, List<StragegyOtherDestinationsListModel.DestinationLocationsList> data, int layoutResId) {
+    public StrategyDestinationsAdapter(Context context, List<StragegyDestinationsListModel.DestinationLocationsList> data, int layoutResId) {
         super(context, data, layoutResId);
     }
 
     @Override
-    protected void bindDataSource(ViewHolder holder, StragegyOtherDestinationsListModel.DestinationLocationsList item, int position) {
+    protected void bindDataSource(ViewHolder holder, StragegyDestinationsListModel.DestinationLocationsList item, int position) {
         holder.setViewText(R.id.txtTopTitle, item.getName());
 
         TextView buttomText = holder.getView(R.id.txtMore);
@@ -48,18 +48,18 @@ public class StragegyOtherDestinationsListAdapter extends RecyclerSingleViewGene
         locationList.setHasFixedSize(false);
 
         locationList.setLayoutManager(new GridLayoutManager(this.mContext, 3));
-        StrategyLocationsGridAdapter adapter = new StrategyLocationsGridAdapter(this.mContext, item.getDestinations(), R.layout.strategy_location_grid_view_item);
+        StrategyLocationsAdapter adapter = new StrategyLocationsAdapter(this.mContext, item.getDestinations(), R.layout.strategy_location_grid_view_item);
         locationList.setAdapter(adapter);
 
         adapter.setOnItemViewClickListener(this);
     }
 
-    public void setCallback(RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> callback) {
+    public void setCallback(RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> callback) {
         this.mCallback = callback;
     }
 
     @Override
-    public void onItemClicked(RecyclerView parentView, View itemView, StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem item, int position) {
+    public void onItemClicked(RecyclerView parentView, View itemView, StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem item, int position) {
         if (this.mCallback != null) {
             this.mCallback.onItemClicked(parentView, itemView, item, position);
         }

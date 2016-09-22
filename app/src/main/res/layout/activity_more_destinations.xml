@@ -25,6 +25,11 @@
             android:layout_toRightOf="@id/imgMoreDestinationsBack"
             android:text="怀柔"
             android:textColor="@color/colorWhite"/>
-
     </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/flContent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 </LinearLayout>

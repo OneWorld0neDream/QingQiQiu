@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tool="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/rvDesNearbyNote"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <ImageView
+            android:id="@+id/imgNearbyIcon"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_nearby"
+            app:layout_aspectRatio="100%"
+            app:layout_heightPercent="50%"
+            app:layout_marginPercent="5%"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/imgNearbyIcon"
+            android:text="20条附近旅行灵感"/>
+
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_arrow_right"
+            app:layout_aspectRatio="100%"
+            app:layout_heightPercent="50%"
+            app:layout_marginPercent="5%"/>
+    </android.support.percent.PercentRelativeLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srlRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvNearbyList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tool:listitem="@layout/strategy_nearby_more_list_view_item"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

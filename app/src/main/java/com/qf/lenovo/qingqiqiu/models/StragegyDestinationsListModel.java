@@ -6,7 +6,7 @@ import java.util.List;
  * Created by 31098 on 9/21/2016.
  */
 
-public class StragegyOtherDestinationsListModel {
+public class StragegyDestinationsListModel {
 
     private String message;
     private int status;

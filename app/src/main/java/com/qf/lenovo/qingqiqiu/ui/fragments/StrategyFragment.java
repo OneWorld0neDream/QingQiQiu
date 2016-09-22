@@ -1,6 +1,7 @@
 package com.qf.lenovo.qingqiqiu.ui.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -21,14 +22,16 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.framework.magicarena.core.widget.adapters.RecyclerSingleViewGeneralAdapter;
 import com.qf.lenovo.qingqiqiu.R;
-import com.qf.lenovo.qingqiqiu.adapters.StragegyOtherDestinationsListAdapter;
-import com.qf.lenovo.qingqiqiu.adapters.StrategyLocationsGridAdapter;
+import com.qf.lenovo.qingqiqiu.adapters.StrategyDestinationsAdapter;
+import com.qf.lenovo.qingqiqiu.adapters.StrategyLocationsAdapter;
 import com.qf.lenovo.qingqiqiu.https.DefaultCallbackImp;
 import com.qf.lenovo.qingqiqiu.https.HttpRequestURL;
-import com.qf.lenovo.qingqiqiu.models.StragegyOtherDestinationsListModel;
+import com.qf.lenovo.qingqiqiu.models.StragegyDestinationsListModel;
 import com.qf.lenovo.qingqiqiu.models.StrategyAdvListModel;
-import com.qf.lenovo.qingqiqiu.models.StrategyNearbyLocationsListModel;
+import com.qf.lenovo.qingqiqiu.models.StrategyLocationsListModel;
 import com.qf.lenovo.qingqiqiu.storage.StorageFileName;
+import com.qf.lenovo.qingqiqiu.ui.activities.ActivitySwitchParams;
+import com.qf.lenovo.qingqiqiu.ui.activities.MoreDestinationsActivity;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.io.IOException;
@@ -39,9 +42,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class StrategyFragment extends BaseFragment implements AMapLocationListener,
-        RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> {
+        RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> {
     //*******************************************
     //*	Instance Area 							*
     //*******************************************
@@ -65,9 +69,11 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
 
     //    RecyclerView mDestinationsPtrList;
 
-    private StrategyLocationsGridAdapter mNearbyGridAdapter;
-    private StragegyOtherDestinationsListAdapter mDestinationsListAdapter;
+    private StrategyLocationsAdapter mNearbyGridAdapter;
+    private StrategyDestinationsAdapter mDestinationsListAdapter;
     private List<String> mHistoryTagsList;
+    private double mLocationLng;
+    private double mLocationLat;
 
     //***************************************
     //*	Methods								*
@@ -81,7 +87,7 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
 
         this.mNearbyGridList.setLayoutManager(new GridLayoutManager(this.getActivity(), 3));
         //        this.mNearbyGridList.addItemDecoration(new RecyclerViewDivider(this.getActivity(), LinearLayoutManager.HORIZONTAL, 10, Color.WHITE));
-        this.mNearbyGridAdapter = new StrategyLocationsGridAdapter(this.getActivity(), null, R.layout.strategy_location_grid_view_item);
+        this.mNearbyGridAdapter = new StrategyLocationsAdapter(this.getActivity(), null, R.layout.strategy_location_grid_view_item);
         this.mNearbyGridList.setAdapter(this.mNearbyGridAdapter);
         this.mNearbyGridAdapter.setOnItemViewClickListener(this);
 
@@ -90,7 +96,7 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
         this.mDestinationsList.setHasFixedSize(true);
         this.mDestinationsList.setNestedScrollingEnabled(false);
         this.mDestinationsList.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-        this.mDestinationsListAdapter = new StragegyOtherDestinationsListAdapter(this.getActivity(), null, R.layout.strategy_location_list_view_item);
+        this.mDestinationsListAdapter = new StrategyDestinationsAdapter(this.getActivity(), null, R.layout.strategy_location_list_view_item);
         this.mDestinationsList.setAdapter(this.mDestinationsListAdapter);
         this.mDestinationsListAdapter.setCallback(this);
     }
@@ -120,11 +126,11 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
         OkHttpUtils.get()
                 .url(HttpRequestURL.STRATEGY_OTHER_DESTINATIONS_URL)
                 .build()
-                .execute(new DefaultCallbackImp<StragegyOtherDestinationsListModel>() {
+                .execute(new DefaultCallbackImp<StragegyDestinationsListModel>() {
                     @Override
-                    public void onResponse(StragegyOtherDestinationsListModel response, int id) {
+                    public void onResponse(StragegyDestinationsListModel response, int id) {
                         if (response != null) {
-                            List<StragegyOtherDestinationsListModel.DestinationLocationsList> data = response.getData();
+                            List<StragegyDestinationsListModel.DestinationLocationsList> data = response.getData();
                             if (data != null) {
                                 StrategyFragment.this.mDestinationsListAdapter.updateDataSouce(data);
                             }
@@ -186,6 +192,15 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
         }
     }
 
+    @OnClick(R.id.txtMore)
+    void onViewClicked(View view) {
+        Intent intent = new Intent(this.getActivity(), MoreDestinationsActivity.class);
+        intent.putExtra(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LAT, String.valueOf(this.mLocationLat));
+        intent.putExtra(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LNG, String.valueOf(this.mLocationLng));
+        intent.putExtra(ActivitySwitchParams.ACTIVITY_START_PARAM_KEY_MODE, ActivitySwitchParams.ACTIVITY_START_PARAM_VALUE_NEARBY);
+        this.startActivity(intent);
+    }
+
     //***********************************
     //*	Implements Methods				*
     //***********************************
@@ -193,17 +208,20 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (aMapLocation.getErrorCode() == AMapLocation.LOCATION_SUCCESS) {
+            this.mLocationLat = aMapLocation.getLatitude();
+            this.mLocationLng = aMapLocation.getLongitude();
+
             OkHttpUtils.get()
                     .url(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_URL)
-                    .addParams(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LAT, String.valueOf(aMapLocation.getLatitude()))
-                    .addParams(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LNG, String.valueOf(aMapLocation.getLongitude()))
+                    .addParams(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LAT, String.valueOf(this.mLocationLat))
+                    .addParams(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LNG, String.valueOf(this.mLocationLng))
                     .addParams(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_RECOMMAND, "")
                     .build()
-                    .execute(new DefaultCallbackImp<StrategyNearbyLocationsListModel>() {
+                    .execute(new DefaultCallbackImp<StrategyLocationsListModel>() {
                         @Override
-                        public void onResponse(StrategyNearbyLocationsListModel response, int id) {
+                        public void onResponse(StrategyLocationsListModel response, int id) {
                             if (response != null) {
-                                List<StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> data = response.getData();
+                                List<StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> data = response.getData();
                                 if (data != null) {
                                     StrategyFragment.this.mNearbyGridAdapter.updateDataSouce(data);
                                 }
@@ -218,7 +236,7 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
 
     //*********************************** onItemClickedListener ***********************************
     @Override
-    public void onItemClicked(RecyclerView parentView, View itemView, StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem item, int position) {
+    public void onItemClicked(RecyclerView parentView, View itemView, StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem item, int position) {
         if (this.mHistoryTagsList.contains(item.getName())) {
             this.mHistoryTagsList.remove(item.getName());
         }
