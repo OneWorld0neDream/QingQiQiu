@@ -66,8 +66,8 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
     LinearLayout mNearByDestinationBlock;
     @BindView(R.id.llHistoryTag)
     LinearLayout mHistoryTags;
-
-    //    RecyclerView mDestinationsPtrList;
+    @BindView(R.id.layoutLoading)
+    View mLoadingLayout;
 
     private StrategyLocationsAdapter mNearbyGridAdapter;
     private StrategyDestinationsAdapter mDestinationsListAdapter;
@@ -136,6 +136,8 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
                                 StrategyFragment.this.mDestinationsListAdapter.updateDataSouce(data);
                             }
                         }
+
+                        StrategyFragment.this.mLoadingLayout.setVisibility(View.GONE);
                     }
                 });
 

@@ -34,7 +34,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private static final String TAG = MainActivity.class.getSimpleName();
 
 
-
     @BindView(R.id.main_appbar)
     AppBarLayout mainAppbar;
     @BindView(R.id.mian_viewpager)
@@ -105,7 +104,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
 
     }
-//======================================================================================
+    //======================================================================================
 
     /**
      * ViewPager滑动的监听
@@ -140,7 +139,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void onPageScrollStateChanged(int state) {
 
     }
-//=============================================================================================
+    //=============================================================================================
 
     private void setTabItem(int position) {
         /**
@@ -171,9 +170,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.main_search:
-                Intent intent = new Intent(this,SearchActivity.class);
+                Intent intent = new Intent(this, SearchActivity.class);
                 startActivity(intent);
                 break;
         }
+    }
+
+    public void setOnRefreshCompleted() {
+
     }
 }

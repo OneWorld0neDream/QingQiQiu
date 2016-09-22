@@ -1,67 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".ui.fragments.StrategyFragment">
 
-    <android.support.v4.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <com.daimajia.slider.library.SliderLayout
-                android:id="@+id/customSliderLayout"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:scrollbars="none"
-                android:visibility="visible">
+                <com.daimajia.slider.library.SliderLayout
+                    android:id="@+id/customSliderLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"/>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="@string/strategy_histroy_tag"/>
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:background="@color/cardview_dark_background"/>
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:scrollbars="none"
+                    android:visibility="visible">
 
                     <LinearLayout
-                        android:id="@+id/llHistoryTag"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:orientation="horizontal"/>
-                </LinearLayout>
-            </HorizontalScrollView>
+                        android:layout_height="30dp"
+                        android:orientation="horizontal">
 
-            <include
-                android:id="@+id/includeNearByDestination"
-                layout="@layout/strategy_location_list_view_item"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/strategy_histroy_tag"/>
 
-            <com.framework.magicarena.pulltorefresh.FullDisplayRecyclerView
-                android:id="@+id/customOtherDestinationsList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
-</LinearLayout>
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:background="@color/cardview_dark_background"/>
+
+                        <LinearLayout
+                            android:id="@+id/llHistoryTag"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal"/>
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <include
+                    android:id="@+id/includeNearByDestination"
+                    layout="@layout/strategy_location_list_view_item"/>
+
+                <com.framework.magicarena.pulltorefresh.FullDisplayRecyclerView
+                    android:id="@+id/customOtherDestinationsList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </LinearLayout>
+
+    <include layout="@layout/fragment_common_loading"/>
+
+</FrameLayout>
+
+
