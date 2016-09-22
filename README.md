@@ -13,7 +13,8 @@ Practice
 - [轮播评论](http://q.chanyouji.com/api/v1/comments.json?type=UserActivity&id=59656&page=1"轮播评论")
 - [附近目的地](http://q.chanyouji.com/api/v2/destinations/nearby.json?lat=40.037388&lng=116.369982&recommend "附近目的地")
 - [目的地详情页](http://q.chanyouji.com/api/v3/destinations/665.json "目的地详情页"):其中665为省市各自对应的ID  整个软件全部适用
-- [更多附近目的地](http://q.chanyouji.com/api/v2/destinations/nearby.json?lat=40.037377&lng=116.369997 "更多附近目的地")
+- [更多附近目的地](http://q.chanyouji.com/api/v2/destinations/nearby.json?lat=40.037377&lng=116.369997"更多附近目的地")
+- [更多其他目的地](http://q.chanyouji.com/api/v2/destinations/list.json?area=china"更多附近目的地"):area区域名称
 - [20条附近旅行灵感](http://q.chanyouji.com/api/v2/destinations/nearby_inspiration_activities.json?lat=40.037377&lng=116.369997 "20条附近旅行灵感")
 - [首页的一级接口](http://q.chanyouji.com/api/v2/destinations.json "首页的一级接口")
 

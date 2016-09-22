@@ -18,18 +18,18 @@ import com.qf.lenovo.qingqiqiu.https.HttpRequestURL;
 import com.qf.lenovo.qingqiqiu.models.StragegyDestinationsListModel;
 import com.qf.lenovo.qingqiqiu.models.StrategyLocationsListModel;
 import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.request.RequestCall;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by 31098 on 9/21/2016.
  */
 
-public class StrategyNearbyMoreFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class StrategyGlobalMoreFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     //*******************************************
     //*	Instance Area 							*
     //*******************************************
@@ -41,8 +41,7 @@ public class StrategyNearbyMoreFragment extends BaseFragment implements SwipeRef
     @BindView(R.id.srlRefresh)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private String mLocationLat;
-    private String mLocationLng;
+    private String mRegion;
     private StrategyLocationsAdapter mLocationsAdapter;
 
     //***************************************
@@ -58,10 +57,9 @@ public class StrategyNearbyMoreFragment extends BaseFragment implements SwipeRef
     private void initParam() {
         Bundle args = this.getArguments();
 
-        this.mLocationLat = args.getString(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LAT, null);
-        this.mLocationLng = args.getString(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LNG, null);
+        this.mRegion = args.getString(HttpRequestURL.STRATEGY_OTHER_LOCATIONS_REQUEST_PARAM_AREA, null);
 
-        if (TextUtils.isEmpty(this.mLocationLat) || TextUtils.isEmpty(this.mLocationLng)) {
+        if (TextUtils.isEmpty(this.mRegion)) {
             this.getActivity().finish();
         }
     }
@@ -79,32 +77,23 @@ public class StrategyNearbyMoreFragment extends BaseFragment implements SwipeRef
     }
 
     private void setupView() {
-        OkHttpUtils.get()
-                .url(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_URL)
-                .addParams(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LAT, this.mLocationLng)
-                .addParams(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LNG, this.mLocationLat)
-                .build()
+        RequestCall build = OkHttpUtils.get()
+                .url(HttpRequestURL.STRATEGY_GLOBAL_LOCATIONS_URL)
+                .addParams(HttpRequestURL.STRATEGY_OTHER_LOCATIONS_REQUEST_PARAM_AREA, this.mRegion)
+                .build();
+        build
                 .execute(new DefaultCallbackImp<StrategyLocationsListModel>() {
                     @Override
                     public void onResponse(StrategyLocationsListModel response, int id) {
                         if (response != null) {
                             List<StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> data = response.getData();
                             if (data != null) {
-                                StrategyNearbyMoreFragment.this.mLocationsAdapter.updateDataSouce(data);
-                                StrategyNearbyMoreFragment.this.mSwipeRefreshLayout.setRefreshing(false);
+                                StrategyGlobalMoreFragment.this.mLocationsAdapter.updateDataSouce(data);
+                                StrategyGlobalMoreFragment.this.mSwipeRefreshLayout.setRefreshing(false);
                             }
                         }
                     }
                 });
-    }
-
-    @OnClick(R.id.rvDesNearbyNote)
-    void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.rvDesNearbyNote:
-
-                break;
-        }
     }
 
     //***********************************
@@ -121,7 +110,7 @@ public class StrategyNearbyMoreFragment extends BaseFragment implements SwipeRef
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.mFragmentLayout = inflater.inflate(R.layout.fragment_strategy_nearby_more, container, false);
+        this.mFragmentLayout = inflater.inflate(R.layout.fragment_strategy_global_more, container, false);
         ButterKnife.bind(this, this.mFragmentLayout);
 
         return this.mFragmentLayout;

@@ -45,7 +45,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class StrategyFragment extends BaseFragment implements AMapLocationListener,
-        RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> {
+        RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem>, StrategyDestinationsAdapter.OnMoreButtonClickedListener {
     //*******************************************
     //*	Instance Area 							*
     //*******************************************
@@ -99,6 +99,7 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
         this.mDestinationsListAdapter = new StrategyDestinationsAdapter(this.getActivity(), null, R.layout.strategy_location_list_view_item);
         this.mDestinationsList.setAdapter(this.mDestinationsListAdapter);
         this.mDestinationsListAdapter.setCallback(this);
+        this.mDestinationsListAdapter.setOnMoreCallback(this);
     }
 
     private void setupView() {
@@ -124,7 +125,7 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
                 });
 
         OkHttpUtils.get()
-                .url(HttpRequestURL.STRATEGY_OTHER_DESTINATIONS_URL)
+                .url(HttpRequestURL.STRATEGY_GLOBAL_DESTINATIONS_URL)
                 .build()
                 .execute(new DefaultCallbackImp<StragegyDestinationsListModel>() {
                     @Override
@@ -182,6 +183,7 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 params.setMargins(5, 0, 5, 0);
                 tagView.setBackgroundResource(R.drawable.shape_history_tag_border);
+                tagView.setPadding(2, 2, 2, 2);
                 tagView.setText(this.mHistoryTagsList.get(index));
                 tagView.setTextSize(12);
                 tagView.setLayoutParams(params);
@@ -243,6 +245,16 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
 
         this.mHistoryTagsList.add(item.getName());
         this.refreshHistoryTags();
+    }
+
+    //***********************************  OnMoreButtonClickedListener ***********************************
+    @Override
+    public void onMoreButtonClicked(String regionName, String titleName) {
+        Intent intent = new Intent(this.getActivity(), MoreDestinationsActivity.class);
+        intent.putExtra(ActivitySwitchParams.ACTIVITY_START_PARAM_KEY_MODE, ActivitySwitchParams.ACTIVITY_START_PARAM_VALUE_GLOBAL);
+        intent.putExtra(ActivitySwitchParams.ACTIVITY_START_PARAM_KEY_REGIION, regionName);
+        intent.putExtra(ActivitySwitchParams.ACTIVITY_START_PARAM_KEY_NAME, titleName);
+        this.startActivity(intent);
     }
 
     //***********************************
