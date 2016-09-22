@@ -113,7 +113,6 @@ public class DetailActivity extends AppCompatActivity implements ObservableScrol
                         setupTripListView(data);
                         setupHView(data);
                         setupNearbyView(data);
-
                     }
                 });
     }
@@ -127,7 +126,7 @@ public class DetailActivity extends AppCompatActivity implements ObservableScrol
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mNearbyRecyclerview.setLayoutManager(layoutManager);
         mNearbyPlace.setText(data.getSections().get(0).getTitle());
-        Log.e(TAG, "setupNearbyView: "+data.getSections().get(0).getModels() );
+        Log.e(TAG, "setupNearbyView: " + data.getSections().get(0).getModels());
         DetailNearbyAdapter nearbyAdapter = new DetailNearbyAdapter(this, data.getSections().get(0).getModels(), R.layout.activity_detail_nearby_item);
         mNearbyRecyclerview.setAdapter(nearbyAdapter);
         mNearbyMap.setText(data.getSections().get(0).getButton_text());
@@ -143,7 +142,7 @@ public class DetailActivity extends AppCompatActivity implements ObservableScrol
         x.image().bind(mHImage, data.getSections().get(3).getModels().get(0).getContents().get(0).getPhoto_url());
         mHNumber.setText("" + data.getSections().get(3).getModels().get(0).getContents().size());
         mHWriter.setText(data.getSections().get(3).getModels().get(0).getUser().getName());
-        Log.e("6666", "setupHView: "+data.getSections().get(3).getModels().get(0).getUser().getName() );
+        Log.e("6666", "setupHView: " + data.getSections().get(3).getModels().get(0).getUser().getName());
         mContentTitle.setText(data.getSections().get(3).getModels().get(0).getTopic());
         mHContent.setText(data.getSections().get(3).getModels().get(0).getDescription());
         mHTriplist.setText(data.getSections().get(3).getButton_text());

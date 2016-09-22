@@ -1,5 +1,6 @@
 package com.qf.lenovo.qingqiqiu.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.framework.magicarena.core.widget.adapters.RecyclerSingleViewGeneralAdapter;
 import com.framework.magicarena.core.widget.decorations.RecyclerViewDivider;
 import com.qf.lenovo.qingqiqiu.R;
 import com.qf.lenovo.qingqiqiu.adapters.StrategyLocationsAdapter;
@@ -17,6 +19,7 @@ import com.qf.lenovo.qingqiqiu.https.DefaultCallbackImp;
 import com.qf.lenovo.qingqiqiu.https.HttpRequestURL;
 import com.qf.lenovo.qingqiqiu.models.StragegyDestinationsListModel;
 import com.qf.lenovo.qingqiqiu.models.StrategyLocationsListModel;
+import com.qf.lenovo.qingqiqiu.ui.activities.ProvinceActivity;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.request.RequestCall;
 
@@ -29,7 +32,7 @@ import butterknife.ButterKnife;
  * Created by 31098 on 9/21/2016.
  */
 
-public class StrategyGlobalMoreFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class StrategyGlobalMoreFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> {
     //*******************************************
     //*	Instance Area 							*
     //*******************************************
@@ -66,6 +69,8 @@ public class StrategyGlobalMoreFragment extends BaseFragment implements SwipeRef
 
     private void initView() {
         this.mLocationsAdapter = new StrategyLocationsAdapter(this.getActivity(), null, R.layout.strategy_nearby_more_list_view_item);
+        this.mLocationsAdapter.setOnItemViewClickListener(this);
+
         LinearLayoutManager layout = new LinearLayoutManager(this.getActivity());
         this.mLocationsList.setLayoutManager(layout);
         this.mLocationsList.addItemDecoration(new RecyclerViewDivider(this.getActivity(), LinearLayoutManager.HORIZONTAL, 2, this.getActivity().getResources().getColor(R.color.cardview_dark_background)));
@@ -102,6 +107,14 @@ public class StrategyGlobalMoreFragment extends BaseFragment implements SwipeRef
     @Override
     public void onRefresh() {
         this.setupView();
+    }
+
+    @Override
+    public void onItemClicked(RecyclerView parentView, View itemView, StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem item, int position) {
+        int id = item.getId();
+        Intent intent = new Intent(this.getActivity(), ProvinceActivity.class);
+        intent.putExtra(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_ID, String.valueOf(id));
+        this.startActivity(intent);
     }
 
     //***********************************
