@@ -12,6 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.framework.magicarena.core.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -283,7 +284,12 @@ public abstract class RecyclerSingleViewGeneralAdapter<T> extends RecyclerView.A
             View view = this.getView(resID);
 
             if (view instanceof ImageView) {
-                Picasso.with(mConvertView.getContext()).load(url).resize(100, 100).into((ImageView) view);
+                Picasso
+                        .with(mConvertView.getContext())
+                        .load(url)
+                        .resize(100, 100)
+                        .placeholder(R.mipmap.ic_launch)
+                        .into((ImageView) view);
                 //                x.image().bind((ImageView) view, url);
             } else {
                 throw new IllegalArgumentException(String.format(TYPE_ERROR_MESSAGE, resID, "ImageView"));
