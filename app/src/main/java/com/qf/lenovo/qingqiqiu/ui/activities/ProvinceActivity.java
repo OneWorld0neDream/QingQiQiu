@@ -96,7 +96,7 @@ public class ProvinceActivity extends AppCompatActivity implements ObservableScr
 
     private void setupView() {
         OkHttpUtils.get()
-                .url(String.format("http://q.chanyouji.com/api/v3/destinations/%s.json",getIntent().getStringExtra(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_ID)))
+                .url(String.format("http://q.chanyouji.com/api/v3/destinations/%s.json",getIntent().getStringExtra(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_ID)))
                 .build()
                 .execute(new DefaultCallbackImp<TripDetailModel>() {
 
@@ -226,7 +226,7 @@ public class ProvinceActivity extends AppCompatActivity implements ObservableScr
 
             case R.id.province_nearby_recyclerview:
                 Intent intent = new Intent(this, DetailActivity.class);
-                intent.putExtra(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_ID,String.valueOf(data.getSections().get(0).getModels().get(position).getId()));
+                intent.putExtra(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_ID,String.valueOf(data.getSections().get(0).getModels().get(position).getId()));
                 startActivity(intent);
                 break;
         }
