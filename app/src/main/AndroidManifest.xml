@@ -51,9 +51,9 @@
 
         <service android:name="com.amap.api.location.APSService"/>
 
-        <activity android:name=".ui.activities.ProvinceActivity">
+        <activity android:name=".ui.activities.ProvinceActivity"></activity>
 
-        </activity>
+        <activity android:name=".ui.activities.LoadingActivity"/>
     </application>
 
 </manifest>
