@@ -38,11 +38,7 @@
 
         <activity android:name=".ui.activities.MainActivity" />
         <activity android:name=".ui.activities.WelcomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".ui.activities.SearchActivity" />
         <activity android:name=".ui.activities.MoreDestinationsActivity" />
@@ -54,7 +50,11 @@
         <service android:name="com.amap.api.location.APSService" />
 
         <activity android:name=".ui.activities.ProvinceActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
