@@ -1,5 +1,6 @@
 package com.qf.lenovo.qingqiqiu.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,11 +12,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.framework.magicarena.core.widget.adapters.RecyclerSingleViewGeneralAdapter;
 import com.qf.lenovo.qingqiqiu.R;
 import com.qf.lenovo.qingqiqiu.adapters.DestinationAdapter;
 import com.qf.lenovo.qingqiqiu.adapters.DetailGoodsAdapter;
 import com.qf.lenovo.qingqiqiu.adapters.DetailNearbyAdapter;
 import com.qf.lenovo.qingqiqiu.https.DefaultCallbackImp;
+import com.qf.lenovo.qingqiqiu.https.HttpRequestURL;
 import com.qf.lenovo.qingqiqiu.models.TripDetailModel;
 import com.qf.lenovo.qingqiqiu.ui.custom.ObservableScrollView;
 import com.squareup.picasso.Picasso;
@@ -27,7 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ProvinceActivity extends AppCompatActivity implements ObservableScrollView.ScrollViewListener {
+public class ProvinceActivity extends AppCompatActivity implements ObservableScrollView.ScrollViewListener, RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener {
 
     private static final String TAG = ProvinceActivity.class.getSimpleName();
     @BindView(R.id.province_head_img)
@@ -75,6 +78,8 @@ public class ProvinceActivity extends AppCompatActivity implements ObservableScr
     @BindView(R.id.province_appbar)
     RelativeLayout mAppbar;
 
+    private TripDetailModel.DataBean data;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,20 +96,21 @@ public class ProvinceActivity extends AppCompatActivity implements ObservableScr
 
     private void setupView() {
         OkHttpUtils.get()
-                .url("http://q.chanyouji.com/api/v3/destinations/109.json")
+                .url(String.format("http://q.chanyouji.com/api/v3/destinations/%s.json",getIntent().getStringExtra(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_ID)))
                 .build()
                 .execute(new DefaultCallbackImp<TripDetailModel>() {
 
+
+
                     @Override
                     public void onResponse(TripDetailModel response, int id) {
-                        TripDetailModel.DataBean data = response.getData();
+                        data = response.getData();
                         mAppbarTitle.setText(data.getDestination().getName());
                         setupHeadView(data);
                         setupGoodsView(data);
                         setupClassicsView(data);
                         setupHView(data);
                         setupNearbyView(data);
-
                     }
                 });
     }
@@ -129,6 +135,7 @@ public class ProvinceActivity extends AppCompatActivity implements ObservableScr
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mGoodsRecyclerview.setLayoutManager(layoutManager);
         DetailGoodsAdapter detailGoodsAdapter = new DetailGoodsAdapter(this, data.getGoods(), R.layout.activity_detail_goods_item);
+        detailGoodsAdapter.setOnItemViewClickListener(this);
         mGoodsRecyclerview.setAdapter(detailGoodsAdapter);
 
     }
@@ -146,6 +153,8 @@ public class ProvinceActivity extends AppCompatActivity implements ObservableScr
         DestinationAdapter adapter = new DestinationAdapter(this,data.getSections().get(0).getModels(),R.layout.activity_detail_nearby_item);
         mNearbyRecyclerview.setAdapter(adapter);
         mNearbyMap.setText(data.getSections().get(0).getButton_text());
+        //设置监听
+        adapter.setOnItemViewClickListener(this);
 
     }
     /**
@@ -153,9 +162,9 @@ public class ProvinceActivity extends AppCompatActivity implements ObservableScr
      * @param data
      */
     private void setupClassicsView(TripDetailModel.DataBean data) {
-        mClassicsTitle.setText(data.getSections().get(1).getTitle());
+//        mClassicsTitle.setText(data.getSections().get(1).getTitle());
 //        x.image().bind(mClassicsImage, data.getSections().get(1).getModels().get(0).getPhoto().getPhoto_url());
-        Picasso.with(this).load(data.getSections().get(1).getModels().get(0).getPhoto().getPhoto_url()).resize(800,400).into(mClassicsImage);
+//        Picasso.with(this).load(data.getSections().get(1).getModels().get(0).getPhoto().getPhoto_url()).resize(800,400).into(mClassicsImage);
         Log.e(TAG, "setupClassicsView: " + data.getSections().get(1).getModels().get(0).getPhoto().getPhoto_url());
     }
 
@@ -204,6 +213,22 @@ public class ProvinceActivity extends AppCompatActivity implements ObservableScr
         Log.e(TAG, "onScrollChanged: " + y + "------" + mHeadImgHeight + "-----" + (y1 / mHeadImgHeight));
         if (y <= mHeadImgHeight) {
             mAppbarBackground.setAlpha(y1 / mHeadImgHeight);
+        }
+    }
+
+    @Override
+    public void onItemClicked(RecyclerView parentView, View itemView, Object item, int position) {
+        Log.e(TAG, "onItemClicked: "+position );
+        switch (parentView.getId()) {
+            case R.id.province_goods_recyclerview:
+
+                break;
+
+            case R.id.province_nearby_recyclerview:
+                Intent intent = new Intent(this, DetailActivity.class);
+                intent.putExtra(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_ID,String.valueOf(data.getSections().get(0).getModels().get(position).getId()));
+                startActivity(intent);
+                break;
         }
     }
 }

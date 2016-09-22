@@ -23,7 +23,7 @@
                     android:src="@mipmap/ic_launch" />
 
                 <LinearLayout
-                    android:layout_width="100dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_centerInParent="true">
@@ -31,7 +31,7 @@
                         android:id="@+id/province_head_name_chinese"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="门头沟"
+                        android:gravity="center"
                         android:textSize="30sp"
                         android:textColor="@color/colorWhite"
                         android:textStyle="bold"
@@ -40,7 +40,7 @@
                         android:id="@+id/province_head_name_spell"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Mentougou"
+                        android:gravity="center"
                         android:textSize="18sp"
                         android:textColor="@color/colorWhite"
                         android:textStyle="bold"
@@ -168,7 +168,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="10dp"
-                        android:background="#99000000"
+                        android:background="#f1000000"
                         />
                 </RelativeLayout>
                 <LinearLayout

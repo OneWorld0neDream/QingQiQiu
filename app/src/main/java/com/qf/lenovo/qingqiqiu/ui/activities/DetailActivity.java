@@ -15,6 +15,7 @@ import com.qf.lenovo.qingqiqiu.R;
 import com.qf.lenovo.qingqiqiu.adapters.DetailGoodsAdapter;
 import com.qf.lenovo.qingqiqiu.adapters.DetailNearbyAdapter;
 import com.qf.lenovo.qingqiqiu.https.DefaultCallbackImp;
+import com.qf.lenovo.qingqiqiu.https.HttpRequestURL;
 import com.qf.lenovo.qingqiqiu.models.TripDetailModel;
 import com.qf.lenovo.qingqiqiu.ui.custom.ObservableScrollView;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -99,7 +100,7 @@ public class DetailActivity extends AppCompatActivity implements ObservableScrol
 
     private void setupView() {
         OkHttpUtils.get()
-                .url("http://q.chanyouji.com/api/v3/destinations/665.json")
+                .url(String.format("http://q.chanyouji.com/api/v3/destinations/%s.json", getIntent().getStringExtra(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_ID)))
                 .build()
                 .execute(new DefaultCallbackImp<TripDetailModel>() {
 
@@ -167,8 +168,8 @@ public class DetailActivity extends AppCompatActivity implements ObservableScrol
      */
     private void setupClassicsView(TripDetailModel.DataBean data) {
         mClassicsTitle.setText(data.getSections().get(1).getTitle());
-        x.image().bind(mClassicsImage, data.getSections().get(1).getModels().get(0).getPhoto().getPhoto_url());
-        Log.e(TAG, "setupClassicsView: " + data.getSections().get(1).getModels().get(0).getPhoto().getPhoto_url());
+//        x.image().bind(mClassicsImage, data.getSections().get(1).getModels().get(0).getPhoto().getPhoto_url());
+//        Log.e(TAG, "setupClassicsView: " + data.getSections().get(1).getModels().get(0).getPhoto().getPhoto_url());
     }
 
     /**
@@ -203,7 +204,7 @@ public class DetailActivity extends AppCompatActivity implements ObservableScrol
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.detail_appbar_back:
-
+                finish();
                 break;
         }
 
