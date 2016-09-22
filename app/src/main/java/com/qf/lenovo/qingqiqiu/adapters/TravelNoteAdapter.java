@@ -1,17 +1,22 @@
 package com.qf.lenovo.qingqiqiu.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.qf.lenovo.qingqiqiu.R;
 import com.qf.lenovo.qingqiqiu.models.TravelNoteList;
+import com.squareup.picasso.Picasso;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
@@ -112,6 +117,7 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
             holder.travelnoteAttention.setText("关注她");
         }
 //        x.image().bind(holder.travelnoteImage,mData.get(position).getActivity().getContents().get(0).getPhoto_url());
+//        Picasso.with(mContext).load(mData.get(position).getActivity().getContents().get(0).getPhoto_url()).resize(300,600).into(holder.travelnoteImage);
         holder.travelnoteImage.setImageResource(R.mipmap.ic_launch);
         holder.travelnoteScrollview.removeAllViewsInLayout();
         for (int i = 1; i < mData.get(position).getActivity().getContents().size(); i++) {
@@ -120,6 +126,7 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
             ImageView image = (ImageView) child.findViewById(R.id.travelnote_content_scrollview_image);
 
 //            x.image().bind(image,mData.get(position).getActivity().getContents().get(i).getPhoto_url());
+//            Picasso.with(mContext).load(mData.get(position).getActivity().getContents().get(i).getPhoto_url()).resize(200,100).into(image);
             image.setImageResource(R.mipmap.ic_launch);
             holder.travelnoteScrollview.addView(scrollview);
             int code = holder.travelnoteScrollview.indexOfChild(scrollview);
@@ -240,8 +247,37 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
                 Log.e(TAG, "clickedListener: 我是收藏" );
                 break;
             case R.id.travelnote_content_more:
-                Log.e(TAG, "clickedListener: 我是更多" );
+                showPopup(v);
                 break;
+            case R.id.travelnote_content_popup_share:
+                Log.e(TAG, "onClick: 我要分享" );
+                break;
+            case R.id.travelnote_content_popup_recommend:
+                Log.e(TAG, "onClick: 我要推荐" );
+                break;
+        }
+    }
+
+    public void showPopup(View view){
+        View pop = LayoutInflater.from(mContext).inflate(R.layout.popupwindow_travelnote_itemt, null);
+        pop.measure(0,0);
+        PopupWindow popupWindow = new PopupWindow(pop,pop.getMeasuredWidth(),pop.getMeasuredHeight());
+        DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
+        int widthPixels = displayMetrics.widthPixels;
+        popupWindow.setWidth(widthPixels / 2);
+
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        if (popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        }else{
+
+//            popupWindow.showAtLocation(view, Gravity.RIGHT,0,0);
+            popupWindow.showAsDropDown(view,0,0);
+            TextView share = (TextView) popupWindow.getContentView().findViewById(R.id.travelnote_content_popup_share);
+            share.setOnClickListener(this);
+            TextView recommend = (TextView) popupWindow.getContentView().findViewById(R.id.travelnote_content_popup_recommend);
+            recommend.setOnClickListener(this);
         }
     }
 }
