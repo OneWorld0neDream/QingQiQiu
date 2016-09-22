@@ -5,11 +5,14 @@ package com.qf.lenovo.qingqiqiu.https;
  */
 public interface HttpRequestURL {
     String STRATEGY_ADVERSEMENT_URL = "http://q.chanyouji.com/api/v1/adverts.json";
-    String STRATEGY_OTHER_DESTINATIONS_URL = "http://q.chanyouji.com/api/v2/destinations.json";
+    String STRATEGY_GLOBAL_DESTINATIONS_URL = "http://q.chanyouji.com/api/v2/destinations.json";
     String STRATEGY_NEARBY_LOCATIONS_URL = "http://q.chanyouji.com/api/v2/destinations/nearby.json";
+    String STRATEGY_GLOBAL_LOCATIONS_URL = "http://q.chanyouji.com/api/v2/destinations/list.json";
 
     String STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LAT = "lat";
     String STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LNG = "lng";
+    String STRATEGY_OTHER_LOCATIONS_REQUEST_PARAM_AREA = "area";
     String STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_RECOMMAND = "recommend";
-    String STRATEGY_NEARBY_LOCATIONS_REQUEST_ID = "id";
+    String STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_ID = "id";
+
 }

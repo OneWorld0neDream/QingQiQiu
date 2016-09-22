@@ -19,7 +19,9 @@ import java.util.List;
 
 public class StrategyDestinationsAdapter extends RecyclerSingleViewGeneralAdapter<StragegyDestinationsListModel.DestinationLocationsList>
         implements RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> {
+
     private RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> mCallback;
+    private OnMoreButtonClickedListener mMoreCallBack;
 
     /**
      * Initializes a new instance of adapter for {@link RecyclerView.Adapter}.
@@ -36,10 +38,13 @@ public class StrategyDestinationsAdapter extends RecyclerSingleViewGeneralAdapte
         holder.setViewText(R.id.txtTopTitle, item.getName());
 
         TextView buttomText = holder.getView(R.id.txtMore);
-        String buttonTest = item.getButton_text();
-        if (!TextUtils.isEmpty(buttonTest)) {
-            holder.setViewText(R.id.txtMore, buttonTest);
+        String buttonText = item.getButton_text();
+        if (!TextUtils.isEmpty(buttonText)) {
+            holder.setViewText(R.id.txtMore, buttonText);
             buttomText.setVisibility(View.VISIBLE);
+            buttomText.setTag(R.id.TAG_KEY_REGION, item.getRegion());
+            buttomText.setTag(R.id.TAG_KEY_TITLE, item.getName());
+            buttomText.setOnClickListener(this);
         } else {
             buttomText.setVisibility(View.GONE);
         }
@@ -58,10 +63,29 @@ public class StrategyDestinationsAdapter extends RecyclerSingleViewGeneralAdapte
         this.mCallback = callback;
     }
 
+    public void setOnMoreCallback(OnMoreButtonClickedListener callback) {
+        this.mMoreCallBack = callback;
+    }
+
     @Override
     public void onItemClicked(RecyclerView parentView, View itemView, StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem item, int position) {
         if (this.mCallback != null) {
             this.mCallback.onItemClicked(parentView, itemView, item, position);
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.txtMore:
+                if (this.mMoreCallBack != null) {
+                    this.mMoreCallBack.onMoreButtonClicked(v.getTag(R.id.TAG_KEY_REGION).toString(), v.getTag(R.id.TAG_KEY_TITLE).toString());
+                }
+                break;
+        }
+    }
+
+    public interface OnMoreButtonClickedListener {
+        void onMoreButtonClicked(String regionName, String titleName);
     }
 }
