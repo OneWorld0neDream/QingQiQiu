@@ -1,6 +1,7 @@
 package com.qf.lenovo.qingqiqiu.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.qf.lenovo.qingqiqiu.R;
 import com.qf.lenovo.qingqiqiu.models.TravelNoteList;
+import com.qf.lenovo.qingqiqiu.ui.activities.LoadingActivity;
 import com.squareup.picasso.Picasso;
 
 import org.xutils.image.ImageOptions;
@@ -38,6 +40,8 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
     private LayoutInflater mInflater;
     private RecyclerView mRecyclerView;
     private Context mContext;
+    private Intent mIntent;
+    private PopupWindow mPopupWindow;
     private ImageOptions options = new ImageOptions.Builder().setCircular(true).setUseMemCache(false).build();
 
     public TravelNoteAdapter(Context mContext,List<TravelNoteList.DataBean> mData) {
@@ -215,9 +219,11 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
             ButterKnife.bind(this, itemView);
         }
     }
+
     // 控件监听
     @Override
     public void onClick(View v) {
+
         switch (v.getId()) {
             case R.id.travelnote_content_photo:
                 Log.e(TAG, "clickedListener: 我是头像" );
@@ -239,21 +245,33 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
                 break;
             case R.id.travelnote_content_praise_layout:
                 Log.e(TAG, "clickedListener: 我是点赞" );
+                mIntent = new Intent(mContext, LoadingActivity.class);
+                mContext.startActivity(mIntent);
                 break;
             case R.id.travelnote_content_comment_layout:
                 Log.e(TAG, "clickedListener: 我是评价" );
+                mIntent = new Intent(mContext, LoadingActivity.class);
+                mContext.startActivity(mIntent);
                 break;
             case R.id.travelnote_content_collect_layout:
                 Log.e(TAG, "clickedListener: 我是收藏" );
+                mIntent = new Intent(mContext, LoadingActivity.class);
+                mContext.startActivity(mIntent);
                 break;
             case R.id.travelnote_content_more:
                 showPopup(v);
                 break;
             case R.id.travelnote_content_popup_share:
                 Log.e(TAG, "onClick: 我要分享" );
+                mPopupWindow.dismiss();
+                mIntent = new Intent(mContext, LoadingActivity.class);
+                mContext.startActivity(mIntent);
                 break;
             case R.id.travelnote_content_popup_recommend:
                 Log.e(TAG, "onClick: 我要推荐" );
+                mPopupWindow.dismiss();
+                mIntent = new Intent(mContext, LoadingActivity.class);
+                mContext.startActivity(mIntent);
                 break;
         }
     }
@@ -261,22 +279,22 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
     public void showPopup(View view){
         View pop = LayoutInflater.from(mContext).inflate(R.layout.popupwindow_travelnote_itemt, null);
         pop.measure(0,0);
-        PopupWindow popupWindow = new PopupWindow(pop,pop.getMeasuredWidth(),pop.getMeasuredHeight());
+        mPopupWindow = new PopupWindow(pop,pop.getMeasuredWidth(),pop.getMeasuredHeight());
         DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
         int widthPixels = displayMetrics.widthPixels;
-        popupWindow.setWidth(widthPixels / 2);
+        mPopupWindow.setWidth(widthPixels / 2);
 
-        popupWindow.setFocusable(true);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
-        if (popupWindow.isShowing()) {
-            popupWindow.dismiss();
+        mPopupWindow.setFocusable(true);
+        mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+        if (mPopupWindow.isShowing()) {
+            mPopupWindow.dismiss();
         }else{
 
 //            popupWindow.showAtLocation(view, Gravity.RIGHT,0,0);
-            popupWindow.showAsDropDown(view,0,0);
-            TextView share = (TextView) popupWindow.getContentView().findViewById(R.id.travelnote_content_popup_share);
+            mPopupWindow.showAsDropDown(view,0,0);
+            TextView share = (TextView) mPopupWindow.getContentView().findViewById(R.id.travelnote_content_popup_share);
             share.setOnClickListener(this);
-            TextView recommend = (TextView) popupWindow.getContentView().findViewById(R.id.travelnote_content_popup_recommend);
+            TextView recommend = (TextView) mPopupWindow.getContentView().findViewById(R.id.travelnote_content_popup_recommend);
             recommend.setOnClickListener(this);
         }
     }

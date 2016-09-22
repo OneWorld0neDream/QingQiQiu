@@ -35,4 +35,10 @@
     <string name="setting">设置</string>
     <string name="travelnote_popup_share">分享</string>
     <string name="travelnote_popup_recommend">推荐给粉丝</string>
+    <string name="loading_id">携程注册邮箱或手机号码</string>
+    <string name="loading_psw">密码</string>
+    <string name="loading_load">登  录</string>
+    <string name="loading_no_id">没有携程账号？</string>
+    <string name="loading_register">在此注册</string>
+    <string name="loading_forget_psw">忘记密码</string>
 </resources>
