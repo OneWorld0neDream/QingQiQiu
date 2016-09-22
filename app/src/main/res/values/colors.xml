@@ -4,6 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorLightWhile">#89EFEFEF</color>
+    <color name="colorLightWhile">#dcdcdc</color>
     <color name="colorLightBlue">#2DC9D7</color>
 </resources>
