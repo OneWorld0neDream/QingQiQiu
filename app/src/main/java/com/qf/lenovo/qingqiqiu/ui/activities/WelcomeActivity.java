@@ -33,6 +33,8 @@ public class WelcomeActivity extends BaseActivity implements
     private static final String TAG = WelcomeActivity.class.getSimpleName();
     public static final int MESSAGE_WHAT_TIME_COUNTER = 100;
     public static final int MESSAGE_WHAT_START_MEDIA = 101;
+    public static final int MESSAGE_WHAT_SWITCH_ONLY = 102;
+
     public static final int[] PLAY_VIDEO_LIST = {R.raw.media};
     private static final int WELCOME_PAGE_DURATION = 3000;
 
@@ -82,9 +84,7 @@ public class WelcomeActivity extends BaseActivity implements
             preferences.edit().putBoolean(StorageFileName.PREFERENCE_KEY_FIRST_START, false).apply();
             this.mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT_START_MEDIA, WELCOME_PAGE_DURATION);
         } else {
-            Intent intent = new Intent(this, MainActivity.class);
-            this.startActivity(intent);
-            this.finish();
+            this.mHandler.sendEmptyMessageDelayed(MESSAGE_WHAT_SWITCH_ONLY, WELCOME_PAGE_DURATION);
         }
     }
 
@@ -133,6 +133,11 @@ public class WelcomeActivity extends BaseActivity implements
                 this.mVideoView.setOnCompletionListener(this);
 
                 this.mTimeCounter.setOnClickListener(this);
+                break;
+            case MESSAGE_WHAT_SWITCH_ONLY:
+                Intent intent = new Intent(this, MainActivity.class);
+                this.startActivity(intent);
+                this.finish();
                 break;
         }
 
