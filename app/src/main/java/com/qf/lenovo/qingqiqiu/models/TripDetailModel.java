@@ -993,6 +993,42 @@ public class TripDetailModel {
                 private boolean is_in_grouping;
                 private String alias_name;
                 private String travel_tip;
+
+                //=======================================================
+                private UserBean user;
+
+                public UserBean getUser() {
+                    return user;
+                }
+
+                public void setUser(UserBean user) {
+                    this.user = user;
+                }
+
+                public static class UserBean{
+                    private String name;
+
+                    public String getName() {
+                        return name;
+                    }
+
+                    public void setName(String name) {
+                        this.name = name;
+                    }
+                }
+
+
+                //======================================================
+                private String topic;
+
+                public String getTopic() {
+                    return topic;
+                }
+
+                public void setTopic(String topic) {
+                    this.topic = topic;
+                }
+
                 /**
                  * id : 435192
                  * width : 941
