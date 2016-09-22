@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/travelnote_content_label_scrollview"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/travelnote_content_label_btn"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/travelnote_content_label_scrollview"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@drawable/selector_travelnote_label_btn"
-        android:textSize="12sp"
-        android:gravity="center"
-        android:text="@string/travelnote_label" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/travelnote_content_label_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/selector_travelnote_label_btn"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:text="@string/travelnote_label" />
+
+    </LinearLayout>
+
 </LinearLayout>

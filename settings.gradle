@@ -1,1 +1,1 @@
-include ':app',':MagicArenaCore',':MagicArenaPullToRefresh'
+include ':app', ':MagicArenaCore', ':MagicArenaPullToRefresh'

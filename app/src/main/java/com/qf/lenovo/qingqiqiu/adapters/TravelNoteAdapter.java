@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,7 +21,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okio.Options;
 
 /**
  * Created by Administrator on 2016/9/20 0020.
@@ -36,11 +34,6 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
     private RecyclerView mRecyclerView;
     private Context mContext;
     private ImageOptions options = new ImageOptions.Builder().setCircular(true).setUseMemCache(false).build();
-
-    private OnItemClickedListener listener;
-    public void setOnItemClickedListener(OnItemClickedListener listener){
-        this.listener = listener;
-    }
 
     public TravelNoteAdapter(Context mContext,List<TravelNoteList.DataBean> mData) {
         if (this.mData != null) {
@@ -70,14 +63,46 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.fragment_travelnote_content, parent, false);
-        itemView.setOnClickListener(this);
         return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-//        Picasso.with(mContext).load(mData.get(position).getActivity().getUser().getPhoto_url()).into(holder.travelnotePhoto);
+        instanceView(holder,position);
+        clickViewEvent(holder);
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mRecyclerView = recyclerView;
+    }
+
+    @Override
+    public int getItemCount() {
+        return mData.size();
+    }
+
+    public TravelNoteList.DataBean getItem(int position){
+        return mData.get(position);
+    }
+
+    // item 中的点击事件
+    public void clickViewEvent(ViewHolder holder){
+        holder.travelnotePhoto.setOnClickListener(this);
+        holder.travelnotePlatform.setOnClickListener(this);
+        holder.travelnoteAttention.setOnClickListener(this);
+        holder.travelnoteImage.setOnClickListener(this);
+        holder.travelnotePraiseLayout.setOnClickListener(this);
+        holder.treavelnoteCommentLayout.setOnClickListener(this);
+        holder.travelnoteCollectLayout.setOnClickListener(this);
+        holder.travelnoteMore.setOnClickListener(this);
+    }
+
+    // 实例化 item中的所有控件
+    public void instanceView(ViewHolder holder, int position){
+
         x.image().bind(holder.travelnotePhoto,mData.get(position).getActivity().getUser().getPhoto_url(),this.options);
         holder.travelnoteName.setText(mData.get(position).getActivity().getUser().getName());
         holder.travelnotePlatform.setText(mData.get(position).getUser().getName());
@@ -86,22 +111,20 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
         }else {
             holder.travelnoteAttention.setText("关注她");
         }
-//        Picasso.with(mContext).load(mData.get(position).getActivity().getContents().get(0).getPhoto_url()).into(holder.travelnoteImage);
-        ImageOptions options = new ImageOptions.Builder().setUseMemCache(false).build();
-        x.image().bind(holder.travelnoteImage,mData.get(position).getActivity().getContents().get(0).getPhoto_url(),options);
-
+//        x.image().bind(holder.travelnoteImage,mData.get(position).getActivity().getContents().get(0).getPhoto_url());
+        holder.travelnoteImage.setImageResource(R.mipmap.ic_launch);
+        holder.travelnoteScrollview.removeAllViewsInLayout();
         for (int i = 1; i < mData.get(position).getActivity().getContents().size(); i++) {
             View scrollview = View.inflate(mContext, R.layout.fragment_travelnote_content_scrollview, null);
             View child = scrollview.findViewById(R.id.travelnote_content_scrollview_content);
             ImageView image = (ImageView) child.findViewById(R.id.travelnote_content_scrollview_image);
-//            Picasso.with(mContext).load(mData.get(position).getActivity().getContents().get(i).getPhoto_url()).into(image);
 
-            x.image().bind(image,mData.get(position).getActivity().getContents().get(i).getPhoto_url(),options);
-
+//            x.image().bind(image,mData.get(position).getActivity().getContents().get(i).getPhoto_url());
+            image.setImageResource(R.mipmap.ic_launch);
             holder.travelnoteScrollview.addView(scrollview);
             int code = holder.travelnoteScrollview.indexOfChild(scrollview);
             child.setTag(code);
-
+            child.setOnClickListener(this);
         }
         holder.travelnoteTitle.setText(mData.get(position).getActivity().getTopic());
         holder.travelnoteContent.setText(mData.get(position).getActivity().getDescription());
@@ -112,8 +135,8 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
         }else {
             count = mData.get(position).getActivity().getDistricts().size() + mData.get(position).getActivity().getCategories().size();
         }
-        Log.e(TAG, "onBindViewHolder: `````````````````"+ mData.get(position).getActivity().getDistricts().size() +"------------"+  mData.get(position).getActivity().getCategories().size() );
         // 给标签添加数据
+        holder.travelnoteLabel.removeAllViewsInLayout();
         for (int i = 0; i < count; i++) {
             View label = View.inflate(mContext, R.layout.fragment_travelnote_content_label, null);
             View child = label.findViewById(R.id.travelnote_content_label_scrollview);
@@ -134,6 +157,9 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
                 }
             }
             holder.travelnoteLabel.addView(label);
+            int num = holder.travelnoteLabel.indexOfChild(label);
+            child.setTag(num);
+            child.setOnClickListener(this);
         }
 
         holder.travelnotePraise.setText(mData.get(position).getActivity().getLikes_count()+"");
@@ -141,26 +167,7 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
         holder.travelnoteCollect.setText(mData.get(position).getActivity().getFavorites_count()+"");
     }
 
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-        mRecyclerView = recyclerView;
-    }
-
-    @Override
-    public int getItemCount() {
-        return mData.size();
-    }
-
-    @Override
-    public void onClick(View v) {
-
-        int position = mRecyclerView.getChildAdapterPosition(v);
-        if (listener != null) {
-            listener.clickedListener(position,v);
-        }
-    }
-
+    // 初始化 item中的所有控件
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.travelnote_content_photo)
@@ -201,8 +208,40 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
             ButterKnife.bind(this, itemView);
         }
     }
-
-    public interface OnItemClickedListener{
-        void clickedListener(int position, View itemView);
+    // 控件监听
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.travelnote_content_photo:
+                Log.e(TAG, "clickedListener: 我是头像" );
+                break;
+            case R.id.travelnote_content_platform:
+                Log.e(TAG, "clickedListener: 我是氢直播" );
+                break;
+            case R.id.travelnote_content_attention:
+                Log.e(TAG, "clickedListener: 我是关注" );
+                break;
+            case R.id.travelnote_content_image:
+                Log.e(TAG, "clickedListener: 我是image");
+                break;
+            case R.id.travelnote_content_scrollview_content:
+                Log.e(TAG, "clickedListener: 我是图片的scrollview " + v.getTag() );
+                break;
+            case R.id.travelnote_content_label_scrollview:
+                Log.e(TAG, "clickedListener: 我是标签的scrollview" + v.getTag() );
+                break;
+            case R.id.travelnote_content_praise_layout:
+                Log.e(TAG, "clickedListener: 我是点赞" );
+                break;
+            case R.id.travelnote_content_comment_layout:
+                Log.e(TAG, "clickedListener: 我是评价" );
+                break;
+            case R.id.travelnote_content_collect_layout:
+                Log.e(TAG, "clickedListener: 我是收藏" );
+                break;
+            case R.id.travelnote_content_more:
+                Log.e(TAG, "clickedListener: 我是更多" );
+                break;
+        }
     }
 }
