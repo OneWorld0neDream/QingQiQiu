@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="com.qf.lenovo.qingqiqiu">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.qf.lenovo.qingqiqiu">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".ui.GlobalApplication"
@@ -28,33 +28,34 @@
         tools:replace="android:icon">
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="57e102e9e0f55a31d5001ab2"/>
+            android:value="57e102e9e0f55a31d5001ab2" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="${CHANNEL}"/>
+            android:value="${CHANNEL}" />
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="c8e4a928e2db94b5d8675ee27571942f"/>
+            android:value="c8e4a928e2db94b5d8675ee27571942f" />
 
         <activity android:name=".ui.activities.MainActivity" />
         <activity android:name=".ui.activities.WelcomeActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".ui.activities.SearchActivity"/>
-        <activity android:name=".ui.activities.MoreDestinationsActivity"/>
+        <activity android:name=".ui.activities.SearchActivity" />
+        <activity android:name=".ui.activities.MoreDestinationsActivity" />
 
         <service android:name="com.amap.api.location.APSService" />
 
+        <activity android:name=".ui.activities.DetailActivity"></activity>
 
-        <activity android:name=".ui.activities.DetailActivity">
+        <service android:name="com.amap.api.location.APSService" />
+
+        <activity android:name=".ui.activities.ProvinceActivity">
 
         </activity>
-        <service android:name="com.amap.api.location.APSService"/>
     </application>
 
 </manifest>

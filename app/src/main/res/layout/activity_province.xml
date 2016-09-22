@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.DetailActivity">
+    tools:context="com.qf.lenovo.qingqiqiu.ui.activities.ProvinceActivity">
     <com.qf.lenovo.qingqiqiu.ui.custom.ObservableScrollView
-        android:id="@+id/detail_scrollview"
+        android:id="@+id/province_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -17,7 +17,7 @@
                 android:layout_height="200dp">
 
                 <ImageView
-                    android:id="@+id/detail_head_img"
+                    android:id="@+id/province_head_img"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:src="@mipmap/ic_launch" />
@@ -28,25 +28,27 @@
                     android:orientation="vertical"
                     android:layout_centerInParent="true">
                     <TextView
-                        android:id="@+id/detail_head_name_chinese"
+                        android:id="@+id/province_head_name_chinese"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="门头沟"
                         android:textSize="30sp"
                         android:textColor="@color/colorWhite"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:layout_gravity="center"/>
                     <TextView
-                        android:id="@+id/detail_head_name_spell"
+                        android:id="@+id/province_head_name_spell"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Mentougou"
                         android:textSize="18sp"
                         android:textColor="@color/colorWhite"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold"
+                        android:layout_gravity="center"/>
                 </LinearLayout>
             </RelativeLayout>
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/detail_goods_recyclerview"
+                android:id="@+id/province_goods_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 >
@@ -58,12 +60,42 @@
                 />
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:id="@+id/province_nearby_place"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="附近目的地"
+                    android:textColor="#dedbdb"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center_vertical"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/province_nearby_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp">
+                </android.support.v7.widget.RecyclerView>
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/province_nearby_map"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="概览与地图"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:layout_gravity="center"/>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="350dp"
                 android:orientation="vertical"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp">
                 <TextView
-                    android:id="@+id/detail_classics_title"
+                    android:id="@+id/province_classics_title"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
@@ -82,77 +114,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp">
                     <ImageView
-                        android:id="@+id/detail_classics_image"
+                        android:id="@+id/province_classics_image"
                         android:layout_width="match_parent"
                         android:layout_height="180dp"
                         android:src="@mipmap/ic_launch"/>
 
                 </RelativeLayout>
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/detail_classics_recycclerview"
+                    android:id="@+id/province_classics_recycclerview"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="#f1ecec">
                 </android.support.v7.widget.RecyclerView>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="#f1ecec"
-                />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp">
-                <TextView
-                    android:id="@+id/detail_triplist_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center_vertical"
-                    android:text="旅行榜单"
-                    android:textColor="#f1ecec"
-                    android:textSize="18sp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:gravity="center_vertical"
-                    android:text="自定义行程：收藏榜单后自动生成行程"
-                    android:textSize="18sp"
-                    android:background="#f1ecec"/>
-                <RelativeLayout
-                    android:layout_marginTop="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp">
-                    <ImageView
-                        android:id="@+id/detail_triplist_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:src="@mipmap/ic_launch"/>
-                    <LinearLayout
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_centerInParent="true">
-                        <TextView
-                            android:id="@+id/detail_triplist_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="门头沟"
-                            android:textSize="18sp"
-                            android:gravity="center_horizontal"
-                            android:textColor="@color/colorWhite"
-                            android:textStyle="bold"/>
-                        <TextView
-                            android:id="@+id/detail_triplist_inspiration"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorWhite"
-                            android:textStyle="bold"/>
-                    </LinearLayout>
-                </RelativeLayout>
-
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -165,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
-                    android:id="@+id/detail_h_title"
+                    android:id="@+id/province_h_title"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
@@ -176,19 +149,20 @@
                     android:layout_marginLeft="20dp"/>
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="200dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp">
                     <ImageView
-                        android:id="@+id/detail_h_image"
+                        android:id="@+id/province_h_image"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp"
+                        android:layout_height="200dp"
                         android:src="@mipmap/ic_launch"/>
                     <TextView
-                        android:id="@+id/detail_h_number"
+                        android:id="@+id/province_h_number"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:text="9"
+                        android:textColor="@color/colorWhite"
                         android:gravity="center"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentRight="true"
@@ -219,7 +193,7 @@
                         android:layout_marginLeft="20dp"/>
                 </LinearLayout>
                 <TextView
-                    android:id="@+id/detail_h_content_title"
+                    android:id="@+id/province_h_content_title"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:text="戒台寺吃斋念佛——从西游记到甄环传"
@@ -227,14 +201,14 @@
                     android:textStyle="bold"
                     android:layout_marginLeft="20dp"/>
                 <TextView
-                    android:id="@+id/detail_h_content"
+                    android:id="@+id/province_h_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     />
                 <TextView
-                    android:id="@+id/detail_h_triplist"
+                    android:id="@+id/province_h_triplist"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:text="14篇门头沟游记"
@@ -242,57 +216,22 @@
                     android:textSize="20sp"
                     android:textColor="@color/colorPrimary"/>
             </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="#f1ecec"
-                android:layout_marginTop="10dp"
-                />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
-                <TextView
-                    android:id="@+id/detail_nearby_place"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:text="附近目的地"
-                    android:textColor="#dedbdb"
-                    android:textSize="18sp"
-                    android:layout_marginLeft="20dp"
-                    android:gravity="center_vertical"/>
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/detail_nearby_recyclerview"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp">
-                </android.support.v7.widget.RecyclerView>
-                <TextView
-                    android:id="@+id/detail_nearby_map"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:text="概览与地图"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="18sp"
-                    android:gravity="center"
-                    android:layout_gravity="center"/>
-            </LinearLayout>
         </LinearLayout>
     </com.qf.lenovo.qingqiqiu.ui.custom.ObservableScrollView>
     <RelativeLayout
-        android:id="@+id/detail_appbar"
+        android:id="@+id/province_appbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
         <LinearLayout
-            android:id="@+id/detail_appbar_background"
+            android:id="@+id/province_appbar_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorPrimary"
             android:layout_centerVertical="true">
             <TextView
-                android:id="@+id/detail_appbar_title"
+                android:id="@+id/province_appbar_title"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="80dp"
@@ -303,7 +242,7 @@
                 />
         </LinearLayout>
         <ImageView
-            android:id="@+id/detail_appbar_back"
+            android:id="@+id/province_appbar_back"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginLeft="20dp"
@@ -312,5 +251,4 @@
 
 
     </RelativeLayout>
-
 </FrameLayout>
