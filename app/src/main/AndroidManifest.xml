@@ -45,13 +45,12 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".ui.activities.MainActivity"/>
         <activity android:name=".ui.activities.SearchActivity"/>
         <activity android:name=".ui.activities.MoreDestinationsActivity"/>
 
         <service android:name="com.amap.api.location.APSService" />
 
-        <activity android:name=".ui.activities.SearchActivity" />
+
         <activity android:name=".ui.activities.DetailActivity">
 
         </activity>
