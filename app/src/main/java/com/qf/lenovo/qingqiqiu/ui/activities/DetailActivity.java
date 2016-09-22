@@ -15,6 +15,7 @@ import com.qf.lenovo.qingqiqiu.R;
 import com.qf.lenovo.qingqiqiu.adapters.DetailGoodsAdapter;
 import com.qf.lenovo.qingqiqiu.adapters.DetailNearbyAdapter;
 import com.qf.lenovo.qingqiqiu.https.DefaultCallbackImp;
+import com.qf.lenovo.qingqiqiu.https.HttpRequestURL;
 import com.qf.lenovo.qingqiqiu.models.TripDetailModel;
 import com.qf.lenovo.qingqiqiu.ui.custom.ObservableScrollView;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -99,20 +100,20 @@ public class DetailActivity extends AppCompatActivity implements ObservableScrol
 
     private void setupView() {
         OkHttpUtils.get()
-                .url("http://q.chanyouji.com/api/v3/destinations/665.json")
+                .url(String.format("http://q.chanyouji.com/api/v3/destinations/%s.json", getIntent().getStringExtra(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_ID)))
                 .build()
                 .execute(new DefaultCallbackImp<TripDetailModel>() {
 
                     @Override
                     public void onResponse(TripDetailModel response, int id) {
                         TripDetailModel.DataBean data = response.getData();
+                        mAppbarTitle.setText(data.getDestination().getName());
                         setupHeadView(data);
                         setupGoodsView(data);
                         setupClassicsView(data);
                         setupTripListView(data);
                         setupHView(data);
                         setupNearbyView(data);
-
                     }
                 });
     }
@@ -126,7 +127,7 @@ public class DetailActivity extends AppCompatActivity implements ObservableScrol
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mNearbyRecyclerview.setLayoutManager(layoutManager);
         mNearbyPlace.setText(data.getSections().get(0).getTitle());
-        Log.e(TAG, "setupNearbyView: "+data.getSections().get(0).getModels() );
+        Log.e(TAG, "setupNearbyView: " + data.getSections().get(0).getModels());
         DetailNearbyAdapter nearbyAdapter = new DetailNearbyAdapter(this, data.getSections().get(0).getModels(), R.layout.activity_detail_nearby_item);
         mNearbyRecyclerview.setAdapter(nearbyAdapter);
         mNearbyMap.setText(data.getSections().get(0).getButton_text());
@@ -141,11 +142,12 @@ public class DetailActivity extends AppCompatActivity implements ObservableScrol
         mHTitle.setText(data.getSections().get(3).getTitle());
         x.image().bind(mHImage, data.getSections().get(3).getModels().get(0).getContents().get(0).getPhoto_url());
         mHNumber.setText("" + data.getSections().get(3).getModels().get(0).getContents().size());
-//        mHWriter.setText(data.getSections().get(3).getModels().get(0).get);
+        mHWriter.setText(data.getSections().get(3).getModels().get(0).getUser().getName());
+        Log.e("6666", "setupHView: " + data.getSections().get(3).getModels().get(0).getUser().getName());
+        mContentTitle.setText(data.getSections().get(3).getModels().get(0).getTopic());
         mHContent.setText(data.getSections().get(3).getModels().get(0).getDescription());
         mHTriplist.setText(data.getSections().get(3).getButton_text());
-        Log.e(TAG, "setupHView: " + data.getSections().get(3).getModels().get(0
-        ).getDescription());
+        Log.e(TAG, "setupHView: " + data.getSections().get(3).getModels().get(0).getDescription());
 
     }
 
@@ -166,8 +168,8 @@ public class DetailActivity extends AppCompatActivity implements ObservableScrol
      */
     private void setupClassicsView(TripDetailModel.DataBean data) {
         mClassicsTitle.setText(data.getSections().get(1).getTitle());
-        x.image().bind(mClassicsImage, data.getSections().get(1).getModels().get(0).getPhoto().getPhoto_url());
-        Log.e(TAG, "setupClassicsView: " + data.getSections().get(1).getModels().get(0).getPhoto().getPhoto_url());
+//        x.image().bind(mClassicsImage, data.getSections().get(1).getModels().get(0).getPhoto().getPhoto_url());
+//        Log.e(TAG, "setupClassicsView: " + data.getSections().get(1).getModels().get(0).getPhoto().getPhoto_url());
     }
 
     /**
@@ -202,7 +204,7 @@ public class DetailActivity extends AppCompatActivity implements ObservableScrol
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.detail_appbar_back:
-
+                finish();
                 break;
         }
 
