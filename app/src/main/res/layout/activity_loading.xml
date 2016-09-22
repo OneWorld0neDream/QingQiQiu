@@ -6,6 +6,35 @@
     android:orientation="vertical"
     tools:context="com.qf.lenovo.qingqiqiu.ui.activities.LoadingActivity">
 
+    <!--<com.qf.lenovo.qingqiqiu.ui.custom.LoadingHanderView-->
+        <!--android:id="@+id/custom_title_views"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:background="#2DC9D7"-->
+        <!--android:layout_height="50dp" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#2DC9D7">
+        <ImageView
+            android:id="@+id/custom_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:src="@mipmap/abc_ic_ab_back_mtrl_am_alpha"/>
+
+        <TextView
+            android:id="@+id/custom_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:textColor="#ffffff"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"
+            android:text="@string/custom_title"/>
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,23 +44,27 @@
             android:id="@+id/loading_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:hint="@string/loading_id"/>
         <EditText
             android:id="@+id/loading_psw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:hint="@string/loading_psw"/>
         <Button
             android:id="@+id/loading_load"
+            android:background="@drawable/shape_loading_load_bg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/loading_load"
             android:textColor="#ffffff"
-            android:background="#2DC9D7"/>
+            android:layout_marginTop="15dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="0dp"

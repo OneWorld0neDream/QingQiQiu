@@ -121,8 +121,8 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
             holder.travelnoteAttention.setText("关注她");
         }
 //        x.image().bind(holder.travelnoteImage,mData.get(position).getActivity().getContents().get(0).getPhoto_url());
-//        Picasso.with(mContext).load(mData.get(position).getActivity().getContents().get(0).getPhoto_url()).resize(300,600).into(holder.travelnoteImage);
-        holder.travelnoteImage.setImageResource(R.mipmap.ic_launch);
+        Picasso.with(mContext).load(mData.get(position).getActivity().getContents().get(0).getPhoto_url()).resize(300,600).into(holder.travelnoteImage);
+//        holder.travelnoteImage.setImageResource(R.mipmap.ic_launch);
         holder.travelnoteScrollview.removeAllViewsInLayout();
         for (int i = 1; i < mData.get(position).getActivity().getContents().size(); i++) {
             View scrollview = View.inflate(mContext, R.layout.fragment_travelnote_content_scrollview, null);
@@ -130,8 +130,8 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
             ImageView image = (ImageView) child.findViewById(R.id.travelnote_content_scrollview_image);
 
 //            x.image().bind(image,mData.get(position).getActivity().getContents().get(i).getPhoto_url());
-//            Picasso.with(mContext).load(mData.get(position).getActivity().getContents().get(i).getPhoto_url()).resize(200,100).into(image);
-            image.setImageResource(R.mipmap.ic_launch);
+            Picasso.with(mContext).load(mData.get(position).getActivity().getContents().get(i).getPhoto_url()).resize(200,100).into(image);
+//            image.setImageResource(R.mipmap.ic_launch);
             holder.travelnoteScrollview.addView(scrollview);
             int code = holder.travelnoteScrollview.indexOfChild(scrollview);
             child.setTag(code);
@@ -276,6 +276,7 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
         }
     }
 
+    // PopupWindow
     public void showPopup(View view){
         View pop = LayoutInflater.from(mContext).inflate(R.layout.popupwindow_travelnote_itemt, null);
         pop.measure(0,0);
