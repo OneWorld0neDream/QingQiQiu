@@ -170,7 +170,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/selector_travelnote_like_bg"/>
+                android:src="@drawable/selector_travelnote_fav_bg"/>
             <TextView
                 android:id="@+id/travelnote_content_collect"
                 android:layout_width="match_parent"
