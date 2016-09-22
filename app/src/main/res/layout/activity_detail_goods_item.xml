@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:orientation="vertical"
+    android:gravity="center">
+    <ImageView
+        android:id="@+id/detail_goods_item_img"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@mipmap/ic_launch"/>
+    <TextView
+        android:id="@+id/detail_goods_item_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="自由行"
+        android:gravity="center_horizontal"/>
+</LinearLayout>
