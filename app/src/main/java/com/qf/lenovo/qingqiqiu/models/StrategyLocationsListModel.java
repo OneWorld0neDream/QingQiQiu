@@ -5,10 +5,10 @@ import java.util.List;
 /**
  * Created by 31098 on 9/20/2016.
  */
-public class StrategyNearbyLocationsListModel {
+public class StrategyLocationsListModel {
     private String message;
     private int status;
-    private List<StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> data;
+    private List<StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> data;
 
     public String getMessage() {
         return message;
@@ -26,11 +26,11 @@ public class StrategyNearbyLocationsListModel {
         this.status = status;
     }
 
-    public List<StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> getData() {
+    public List<StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> getData() {
         return data;
     }
 
-    public void setData(List<StragegyOtherDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> data) {
+    public void setData(List<StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> data) {
         this.data = data;
     }
 }
