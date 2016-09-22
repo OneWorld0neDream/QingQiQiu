@@ -1,6 +1,5 @@
 package com.qf.lenovo.qingqiqiu.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,27 +13,23 @@ import android.view.ViewGroup;
 import com.framework.magicarena.core.widget.adapters.RecyclerSingleViewGeneralAdapter;
 import com.framework.magicarena.core.widget.decorations.RecyclerViewDivider;
 import com.qf.lenovo.qingqiqiu.R;
-import com.qf.lenovo.qingqiqiu.adapters.StrategyLocationsAdapter;
+import com.qf.lenovo.qingqiqiu.adapters.TravaelNoteListAdapter;
 import com.qf.lenovo.qingqiqiu.https.DefaultCallbackImp;
 import com.qf.lenovo.qingqiqiu.https.HttpRequestURL;
 import com.qf.lenovo.qingqiqiu.models.StragegyDestinationsListModel;
-import com.qf.lenovo.qingqiqiu.models.StrategyLocationsListModel;
-import com.qf.lenovo.qingqiqiu.ui.activities.ActivitySwitchParams;
-import com.qf.lenovo.qingqiqiu.ui.activities.DetailActivity;
-import com.qf.lenovo.qingqiqiu.ui.activities.MoreDestinationsActivity;
+import com.qf.lenovo.qingqiqiu.models.TravelNoteListModel;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by 31098 on 9/21/2016.
  */
 
-public class StrategyNearbyMoreFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> {
+public class StrategyNearbyNoteFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> {
     //*******************************************
     //*	Instance Area 							*
     //*******************************************
@@ -48,11 +43,7 @@ public class StrategyNearbyMoreFragment extends BaseFragment implements SwipeRef
 
     private String mLocationLat;
     private String mLocationLng;
-    private StrategyLocationsAdapter mLocationsAdapter;
-
-    //***************************************
-    //*	Constructors						*
-    //***************************************
+    private TravaelNoteListAdapter mNoteListAdapter;
 
     //***************************************
     //*	Methods								*
@@ -72,13 +63,13 @@ public class StrategyNearbyMoreFragment extends BaseFragment implements SwipeRef
     }
 
     private void initView() {
-        this.mLocationsAdapter = new StrategyLocationsAdapter(this.getActivity(), null, R.layout.strategy_nearby_more_list_view_item);
-        this.mLocationsAdapter.setOnItemViewClickListener(this);
+        this.mNoteListAdapter = new TravaelNoteListAdapter(this.getActivity(), null, R.layout.strategy_nearby_note_list_view_item);
+        this.mNoteListAdapter.setOnItemViewClickListener(this);
 
         LinearLayoutManager layout = new LinearLayoutManager(this.getActivity());
         this.mLocationsList.setLayoutManager(layout);
         this.mLocationsList.addItemDecoration(new RecyclerViewDivider(this.getActivity(), LinearLayoutManager.HORIZONTAL, 2, this.getActivity().getResources().getColor(R.color.cardview_dark_background)));
-        this.mLocationsList.setAdapter(this.mLocationsAdapter);
+        this.mLocationsList.setAdapter(this.mNoteListAdapter);
 
         this.mSwipeRefreshLayout.setProgressViewOffset(true, -100, 200);
         this.mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -87,35 +78,22 @@ public class StrategyNearbyMoreFragment extends BaseFragment implements SwipeRef
 
     private void setupView() {
         OkHttpUtils.get()
-                .url(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_URL)
+                .url(HttpRequestURL.STRATEGY_NEARBY_NOTE_URL)
                 .addParams(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LAT, this.mLocationLng)
                 .addParams(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LNG, this.mLocationLat)
                 .build()
-                .execute(new DefaultCallbackImp<StrategyLocationsListModel>() {
+                .execute(new DefaultCallbackImp<TravelNoteListModel>() {
                     @Override
-                    public void onResponse(StrategyLocationsListModel response, int id) {
+                    public void onResponse(TravelNoteListModel response, int id) {
                         if (response != null) {
-                            List<StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem> data = response.getData();
+                            List<TravelNoteListModel.TravelNoteListItemModel> data = response.getData();
                             if (data != null) {
-                                StrategyNearbyMoreFragment.this.mLocationsAdapter.updateDataSouce(data);
-                                StrategyNearbyMoreFragment.this.mSwipeRefreshLayout.setRefreshing(false);
+                                StrategyNearbyNoteFragment.this.mNoteListAdapter.updateDataSouce(data);
+                                StrategyNearbyNoteFragment.this.mSwipeRefreshLayout.setRefreshing(false);
                             }
                         }
                     }
                 });
-    }
-
-    @OnClick(R.id.rvDesNearbyNote)
-    void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.rvDesNearbyNote:
-                Intent intent = new Intent(this.getActivity(), MoreDestinationsActivity.class);
-                intent.putExtra(ActivitySwitchParams.ACTIVITY_START_PARAM_KEY_MODE, ActivitySwitchParams.ACTIVITY_START_PARAM_VALUE_NOTE);
-                intent.putExtra(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LNG, this.mLocationLng);
-                intent.putExtra(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LAT, this.mLocationLat);
-                this.startActivity(intent);
-                break;
-        }
     }
 
     //***********************************
@@ -128,10 +106,7 @@ public class StrategyNearbyMoreFragment extends BaseFragment implements SwipeRef
 
     @Override
     public void onItemClicked(RecyclerView parentView, View itemView, StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem item, int position) {
-        int id = item.getId();
-        Intent intent = new Intent(this.getActivity(), DetailActivity.class);
-        intent.putExtra(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_ID, String.valueOf(id));
-        this.startActivity(intent);
+
     }
 
     //***********************************
@@ -140,7 +115,7 @@ public class StrategyNearbyMoreFragment extends BaseFragment implements SwipeRef
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.mFragmentLayout = inflater.inflate(R.layout.fragment_strategy_nearby_more, container, false);
+        this.mFragmentLayout = inflater.inflate(R.layout.fragment_strategy_nearby_note, container, false);
         ButterKnife.bind(this, this.mFragmentLayout);
 
         return this.mFragmentLayout;

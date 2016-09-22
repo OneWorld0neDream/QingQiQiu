@@ -11,4 +11,5 @@ public interface ActivitySwitchParams {
 
     String ACTIVITY_START_PARAM_VALUE_NEARBY = "NEARBY_MORE";
     String ACTIVITY_START_PARAM_VALUE_GLOBAL = "GLOBAL_MORE";
+    String ACTIVITY_START_PARAM_VALUE_NOTE = "NOTE";
 }

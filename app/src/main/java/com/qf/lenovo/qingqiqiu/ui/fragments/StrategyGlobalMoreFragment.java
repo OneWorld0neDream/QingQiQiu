@@ -21,7 +21,6 @@ import com.qf.lenovo.qingqiqiu.models.StragegyDestinationsListModel;
 import com.qf.lenovo.qingqiqiu.models.StrategyLocationsListModel;
 import com.qf.lenovo.qingqiqiu.ui.activities.ProvinceActivity;
 import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.request.RequestCall;
 
 import java.util.List;
 
@@ -82,11 +81,10 @@ public class StrategyGlobalMoreFragment extends BaseFragment implements SwipeRef
     }
 
     private void setupView() {
-        RequestCall build = OkHttpUtils.get()
+        OkHttpUtils.get()
                 .url(HttpRequestURL.STRATEGY_GLOBAL_LOCATIONS_URL)
                 .addParams(HttpRequestURL.STRATEGY_OTHER_LOCATIONS_REQUEST_PARAM_AREA, this.mRegion)
-                .build();
-        build
+                .build()
                 .execute(new DefaultCallbackImp<StrategyLocationsListModel>() {
                     @Override
                     public void onResponse(StrategyLocationsListModel response, int id) {

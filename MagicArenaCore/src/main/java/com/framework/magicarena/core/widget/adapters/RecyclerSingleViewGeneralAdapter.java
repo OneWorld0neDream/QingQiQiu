@@ -296,6 +296,22 @@ public abstract class RecyclerSingleViewGeneralAdapter<T> extends RecyclerView.A
             }
         }
 
+        public void setViewImage(int resID, int imgResId) {
+            View view = this.getView(resID);
+
+            if (view instanceof ImageView) {
+                Picasso
+                        .with(mConvertView.getContext())
+                        .load(imgResId)
+                        .resize(100, 100)
+                        .placeholder(R.mipmap.ic_launch)
+                        .into((ImageView) view);
+                //                x.image().bind((ImageView) view, url);
+            } else {
+                throw new IllegalArgumentException(String.format(TYPE_ERROR_MESSAGE, resID, "ImageView"));
+            }
+        }
+
         //        /**
         //         * Set image source of {@link ImageView} with specified resource id with URL string.
         //         *
