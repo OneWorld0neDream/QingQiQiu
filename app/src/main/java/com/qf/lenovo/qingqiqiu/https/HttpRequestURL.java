@@ -8,6 +8,7 @@ public interface HttpRequestURL {
     String STRATEGY_GLOBAL_DESTINATIONS_URL = "http://q.chanyouji.com/api/v2/destinations.json";
     String STRATEGY_NEARBY_LOCATIONS_URL = "http://q.chanyouji.com/api/v2/destinations/nearby.json";
     String STRATEGY_GLOBAL_LOCATIONS_URL = "http://q.chanyouji.com/api/v2/destinations/list.json";
+    String STRATEGY_NEARBY_NOTE_URL = "http://q.chanyouji.com/api/v2/destinations/nearby_inspiration_activities.json";
 
     String STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LAT = "lat";
     String STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LNG = "lng";

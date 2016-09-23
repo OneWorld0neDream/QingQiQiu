@@ -12,6 +12,7 @@ import com.qf.lenovo.qingqiqiu.R;
 import com.qf.lenovo.qingqiqiu.https.HttpRequestURL;
 import com.qf.lenovo.qingqiqiu.ui.fragments.StrategyGlobalMoreFragment;
 import com.qf.lenovo.qingqiqiu.ui.fragments.StrategyNearbyMoreFragment;
+import com.qf.lenovo.qingqiqiu.ui.fragments.StrategyNearbyNoteFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -82,6 +83,25 @@ public class MoreDestinationsActivity extends BaseActivity {
 
                     loadFragment = new StrategyGlobalMoreFragment();
                     loadFragment.setArguments(args);
+                } else {
+                    this.finish();
+                }
+                break;
+            case ActivitySwitchParams.ACTIVITY_START_PARAM_VALUE_NOTE:
+                String locationLat1 = this.getIntent().getStringExtra(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LAT);
+                String locationLng1 = this.getIntent().getStringExtra(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LNG);
+
+                if (!TextUtils.isEmpty(locationLat1) && !TextUtils.isEmpty(locationLng1)) {
+                    this.mMoreDestinationsTitle.setText(this.getString(R.string.strategy_nearby_note));
+
+                    args = new Bundle();
+                    args.putString(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LNG, locationLng1);
+                    args.putString(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_LAT, locationLat1);
+
+                    loadFragment = new StrategyNearbyNoteFragment();
+                    loadFragment.setArguments(args);
+                } else {
+                    this.finish();
                 }
                 break;
         }

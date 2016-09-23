@@ -1,17 +1,24 @@
 package com.qf.lenovo.qingqiqiu.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.qf.lenovo.qingqiqiu.R;
 import com.qf.lenovo.qingqiqiu.models.TravelNoteList;
+import com.qf.lenovo.qingqiqiu.ui.activities.LoadingActivity;
+import com.squareup.picasso.Picasso;
 
 import org.xutils.image.ImageOptions;
 import org.xutils.x;
@@ -33,6 +40,8 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
     private LayoutInflater mInflater;
     private RecyclerView mRecyclerView;
     private Context mContext;
+    private Intent mIntent;
+    private PopupWindow mPopupWindow;
     private ImageOptions options = new ImageOptions.Builder().setCircular(true).setUseMemCache(false).build();
 
     public TravelNoteAdapter(Context mContext,List<TravelNoteList.DataBean> mData) {
@@ -112,7 +121,8 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
             holder.travelnoteAttention.setText("关注她");
         }
 //        x.image().bind(holder.travelnoteImage,mData.get(position).getActivity().getContents().get(0).getPhoto_url());
-        holder.travelnoteImage.setImageResource(R.mipmap.ic_launch);
+        Picasso.with(mContext).load(mData.get(position).getActivity().getContents().get(0).getPhoto_url()).resize(300,600).into(holder.travelnoteImage);
+//        holder.travelnoteImage.setImageResource(R.mipmap.ic_launch);
         holder.travelnoteScrollview.removeAllViewsInLayout();
         for (int i = 1; i < mData.get(position).getActivity().getContents().size(); i++) {
             View scrollview = View.inflate(mContext, R.layout.fragment_travelnote_content_scrollview, null);
@@ -120,7 +130,8 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
             ImageView image = (ImageView) child.findViewById(R.id.travelnote_content_scrollview_image);
 
 //            x.image().bind(image,mData.get(position).getActivity().getContents().get(i).getPhoto_url());
-            image.setImageResource(R.mipmap.ic_launch);
+            Picasso.with(mContext).load(mData.get(position).getActivity().getContents().get(i).getPhoto_url()).resize(200,100).into(image);
+//            image.setImageResource(R.mipmap.ic_launch);
             holder.travelnoteScrollview.addView(scrollview);
             int code = holder.travelnoteScrollview.indexOfChild(scrollview);
             child.setTag(code);
@@ -208,9 +219,11 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
             ButterKnife.bind(this, itemView);
         }
     }
+
     // 控件监听
     @Override
     public void onClick(View v) {
+
         switch (v.getId()) {
             case R.id.travelnote_content_photo:
                 Log.e(TAG, "clickedListener: 我是头像" );
@@ -232,16 +245,58 @@ public class TravelNoteAdapter extends RecyclerView.Adapter<TravelNoteAdapter.Vi
                 break;
             case R.id.travelnote_content_praise_layout:
                 Log.e(TAG, "clickedListener: 我是点赞" );
+                mIntent = new Intent(mContext, LoadingActivity.class);
+                mContext.startActivity(mIntent);
                 break;
             case R.id.travelnote_content_comment_layout:
                 Log.e(TAG, "clickedListener: 我是评价" );
+                mIntent = new Intent(mContext, LoadingActivity.class);
+                mContext.startActivity(mIntent);
                 break;
             case R.id.travelnote_content_collect_layout:
                 Log.e(TAG, "clickedListener: 我是收藏" );
+                mIntent = new Intent(mContext, LoadingActivity.class);
+                mContext.startActivity(mIntent);
                 break;
             case R.id.travelnote_content_more:
-                Log.e(TAG, "clickedListener: 我是更多" );
+                showPopup(v);
                 break;
+            case R.id.travelnote_content_popup_share:
+                Log.e(TAG, "onClick: 我要分享" );
+                mPopupWindow.dismiss();
+                mIntent = new Intent(mContext, LoadingActivity.class);
+                mContext.startActivity(mIntent);
+                break;
+            case R.id.travelnote_content_popup_recommend:
+                Log.e(TAG, "onClick: 我要推荐" );
+                mPopupWindow.dismiss();
+                mIntent = new Intent(mContext, LoadingActivity.class);
+                mContext.startActivity(mIntent);
+                break;
+        }
+    }
+
+    // PopupWindow
+    public void showPopup(View view){
+        View pop = LayoutInflater.from(mContext).inflate(R.layout.popupwindow_travelnote_itemt, null);
+        pop.measure(0,0);
+        mPopupWindow = new PopupWindow(pop,pop.getMeasuredWidth(),pop.getMeasuredHeight());
+        DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
+        int widthPixels = displayMetrics.widthPixels;
+        mPopupWindow.setWidth(widthPixels / 2);
+
+        mPopupWindow.setFocusable(true);
+        mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+        if (mPopupWindow.isShowing()) {
+            mPopupWindow.dismiss();
+        }else{
+
+//            popupWindow.showAtLocation(view, Gravity.RIGHT,0,0);
+            mPopupWindow.showAsDropDown(view,0,0);
+            TextView share = (TextView) mPopupWindow.getContentView().findViewById(R.id.travelnote_content_popup_share);
+            share.setOnClickListener(this);
+            TextView recommend = (TextView) mPopupWindow.getContentView().findViewById(R.id.travelnote_content_popup_recommend);
+            recommend.setOnClickListener(this);
         }
     }
 }
