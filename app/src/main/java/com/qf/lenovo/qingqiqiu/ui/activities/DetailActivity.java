@@ -99,6 +99,7 @@ public class DetailActivity extends AppCompatActivity implements ObservableScrol
     }
 
     private void setupView() {
+        Log.e(TAG, "setupView: "+String.format("http://q.chanyouji.com/api/v3/destinations/%s.json", getIntent().getStringExtra(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_ID)) );
         OkHttpUtils.get()
                 .url(String.format("http://q.chanyouji.com/api/v3/destinations/%s.json", getIntent().getStringExtra(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_ID)))
                 .build()

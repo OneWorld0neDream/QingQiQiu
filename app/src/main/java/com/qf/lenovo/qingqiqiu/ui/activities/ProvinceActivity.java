@@ -165,7 +165,7 @@ public class ProvinceActivity extends AppCompatActivity implements ObservableScr
 //        mClassicsTitle.setText(data.getSections().get(1).getTitle());
 //        x.image().bind(mClassicsImage, data.getSections().get(1).getModels().get(0).getPhoto().getPhoto_url());
 //        Picasso.with(this).load(data.getSections().get(1).getModels().get(0).getPhoto().getPhoto_url()).resize(800,400).into(mClassicsImage);
-        Log.e(TAG, "setupClassicsView: " + data.getSections().get(1).getModels().get(0).getPhoto().getPhoto_url());
+//        Log.e(TAG, "setupClassicsView: " + data.getSections().get(1).getModels().get(0).getPhoto().getPhoto_url());
     }
 
     /**
