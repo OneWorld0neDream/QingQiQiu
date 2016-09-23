@@ -31,7 +31,9 @@ import com.qf.lenovo.qingqiqiu.models.StrategyAdvListModel;
 import com.qf.lenovo.qingqiqiu.models.StrategyLocationsListModel;
 import com.qf.lenovo.qingqiqiu.storage.StorageFileName;
 import com.qf.lenovo.qingqiqiu.ui.activities.ActivitySwitchParams;
+import com.qf.lenovo.qingqiqiu.ui.activities.DetailActivity;
 import com.qf.lenovo.qingqiqiu.ui.activities.MoreDestinationsActivity;
+import com.qf.lenovo.qingqiqiu.ui.activities.ProvinceActivity;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.io.IOException;
@@ -46,6 +48,16 @@ import butterknife.OnClick;
 
 public class StrategyFragment extends BaseFragment implements AMapLocationListener,
         RecyclerSingleViewGeneralAdapter.OnItemViewClickedListener<StragegyDestinationsListModel.DestinationLocationsList.DestinationsLocationItem>, StrategyDestinationsAdapter.OnMoreButtonClickedListener {
+    //*******************************************
+    //*	Static Area 							*
+    //*******************************************
+    //***************************************
+    //*	Fields								*
+    //***************************************
+    private final static int LOCATIONS_LEVEL_FOREIGN = 2;
+    private final static int LOCATIONS_LEVEL_PROVINCE = 3;
+    private final static int LOCATIONS_LEVEL_CITY = 4;
+
     //*******************************************
     //*	Instance Area 							*
     //*******************************************
@@ -247,6 +259,25 @@ public class StrategyFragment extends BaseFragment implements AMapLocationListen
 
         this.mHistoryTagsList.add(item.getName());
         this.refreshHistoryTags();
+
+        int id = item.getId();
+        Intent intent = null;
+
+        switch (item.getLevel()) {
+            case LOCATIONS_LEVEL_FOREIGN:
+            case LOCATIONS_LEVEL_PROVINCE:
+                intent = new Intent(this.getActivity(), ProvinceActivity.class);
+                intent.putExtra(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_ID, String.valueOf(id));
+                this.startActivity(intent);
+
+                break;
+            case LOCATIONS_LEVEL_CITY:
+                intent = new Intent(this.getActivity(), DetailActivity.class);
+                intent.putExtra(HttpRequestURL.STRATEGY_NEARBY_LOCATIONS_REQUEST_PARAM_ID, String.valueOf(id));
+                this.startActivity(intent);
+
+                break;
+        }
     }
 
     //***********************************  OnMoreButtonClickedListener ***********************************
